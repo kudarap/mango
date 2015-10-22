@@ -1,4 +1,4 @@
-package controllers
+package index
 
 import (
 	"io/ioutil"
@@ -8,12 +8,10 @@ import (
 	"github.com/gorilla/schema"
 )
 
-var (
-	decoder = schema.NewDecoder()
-)
+var decoder = schema.NewDecoder()
 
-// IndexHandler just to catch / uri
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
+// Handler just to catch / uri
+func Handler(w http.ResponseWriter, r *http.Request) {
 	render := r.Method + " Goryo!\n"
 	render += "URL is " + r.URL.String() + "\n"
 
