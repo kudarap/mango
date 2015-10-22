@@ -1,2 +1,2 @@
 # puto
-learning golang
+learning golang & building patterns
