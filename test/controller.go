@@ -1,20 +1,27 @@
-package controllers
+package test
 
 import (
 	"encoding/json"
 	"log"
 	"net/http"
 
-	res "github.com/javinc/puto/resources/test"
-	"github.com/javinc/puto/services/test"
+	"github.com/gorilla/schema"
+	"github.com/javinc/puto/test/resource"
+	"github.com/javinc/puto/test/service"
 )
 
-// TestHandler catches /test endpoint
-func TestHandler(w http.ResponseWriter, r *http.Request) {
+var (
+	// Model for import use
+	Model   = resource.Model{}
+	decoder = schema.NewDecoder()
+)
+
+// Handler catches /test endpoint
+func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("controllers TestHandler")
 
 	// extract field from get params
-	o := new(res.Options)
+	o := new(resource.Options)
 	err := decoder.Decode(o, r.URL.Query())
 	if err != nil {
 		log.Panic(err)
@@ -28,7 +35,7 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 		log.Panic(err)
 	}
 
-	p := new(res.Model)
+	p := new(resource.Model)
 	err = decoder.Decode(p, r.PostForm)
 	if err != nil {
 		log.Panic(err)
@@ -41,10 +48,10 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 	var b []byte
 	switch r.Method {
 	case "GET":
-		b, err = json.Marshal(test.Find(o))
+		b, err = json.Marshal(service.Find(o))
 
 	case "POST":
-		b, err = json.Marshal(test.Create(p))
+		b, err = json.Marshal(service.Create(p))
 	}
 
 	// render some value
