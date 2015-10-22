@@ -1,4 +1,4 @@
-package resources
+package db
 
 import (
 	"log"
@@ -8,8 +8,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// SQL database instance
-var SQL = Db()
+// MySQL database instance
+var MySQL = Db()
 
 const (
 	db   = "puto"
