@@ -4,10 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/javinc/playgo/goryo/resources"
-	"github.com/javinc/playgo/goryo/resources/test"
-	// "github.com/javinc/playgo/goryo/resources/user"
-	"github.com/javinc/playgo/goryo/controllers"
+	"github.com/javinc/puto/controllers"
+	"github.com/javinc/puto/resources"
+	"github.com/javinc/puto/resources/test"
 )
 
 func main() {
@@ -15,11 +14,9 @@ func main() {
 	// Routes consist of a path and a handler function.
 	r.HandleFunc("/", controllers.IndexHandler)
 	r.HandleFunc("/test", controllers.TestHandler)
-	r.HandleFunc("/user", controllers.UserHandler)
 
 	// Migrates Db
-	resources.Sql.AutoMigrate(&test.Model{})
-	// resources.Sql.AutoMigrate(&user.Model{})
+	resources.SQL.AutoMigrate(&test.Model{})
 
 	// Bind to a port and pass our router in
 	http.ListenAndServe(":8000", r)
