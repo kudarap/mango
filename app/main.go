@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/javinc/puto/db"
+	x "github.com/javinc/puto"
 	"github.com/javinc/puto/index"
 	"github.com/javinc/puto/test"
 )
@@ -14,15 +14,15 @@ import (
 const port = "8000"
 
 func main() {
-	r := mux.NewRouter()
+	m := mux.NewRouter()
 	// Routes consist of a path and a handler function.
-	r.HandleFunc("/", index.Handler)
-	r.HandleFunc("/test", test.Handler)
+	m.HandleFunc("/", index.Handler)
+	m.HandleFunc("/test", test.Handler)
 
 	// Migrates Db
-	db.MySQL.AutoMigrate(&test.Model)
+	x.MySQL.AutoMigrate(&test.Model)
 
 	// Bind to a port and pass our router in
 	log.Println("serving on port", port)
-	http.ListenAndServe(":"+port, r)
+	http.ListenAndServe(":"+port, m)
 }

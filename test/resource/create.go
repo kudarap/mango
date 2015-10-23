@@ -1,10 +1,10 @@
 package resource
 
-import r "github.com/javinc/puto/db"
+import x "github.com/javinc/puto"
 
 // Create resource
 func Create(m *Model) (Model, error) {
-	r.MySQL.Create(&m)
+	x.MySQL.Create(&m)
 
 	return *m, nil
 }

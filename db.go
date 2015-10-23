@@ -1,4 +1,4 @@
-package db
+package puto
 
 import (
 	"log"
@@ -19,23 +19,24 @@ const (
 
 // Db instantiation
 func Db() gorm.DB {
-	x, err := gorm.Open("mysql",
+	d, err := gorm.Open("mysql",
 		user+":"+pass+"@/"+db+"?charset=utf8&parseTime=True")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Get database connection handle [*sql.DB](http://golang.org/pkg/database/sql/#DB)
-	x.DB()
+	// Get database connection handle
+	// [*sql.DB](http://golang.org/pkg/database/sql/#DB)
+	d.DB()
 
 	// Then you could invoke `*sql.DB`'s functions with it
-	x.DB().Ping()
-	x.DB().SetMaxIdleConns(1000)
-	x.DB().SetMaxOpenConns(1000)
+	d.DB().Ping()
+	d.DB().SetMaxIdleConns(1000)
+	d.DB().SetMaxOpenConns(1000)
 
 	// Disable table name's pluralization
-	x.SingularTable(true)
-	x.LogMode(true)
+	d.SingularTable(true)
+	d.LogMode(true)
 
-	return x
+	return d
 }

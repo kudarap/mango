@@ -1,11 +1,11 @@
 package resource
 
-import r "github.com/javinc/puto/db"
+import x "github.com/javinc/puto"
 
 // Find resource
 func Find(o Options) ([]Model, error) {
 	models := []Model{}
-	r.MySQL.Find(&models, o.Filters)
+	x.MySQL.Find(&models, o.Filters)
 
 	return models, nil
 }
@@ -13,7 +13,7 @@ func Find(o Options) ([]Model, error) {
 // Get resource
 func Get(o Options) (Model, error) {
 	model := Model{}
-	r.MySQL.First(&model, o.Filters)
+	x.MySQL.First(&model, o.Filters)
 
 	return model, nil
 }
