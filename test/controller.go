@@ -17,7 +17,7 @@ var (
 
 // Handler catches /test endpoint
 func Handler(w http.ResponseWriter, r *http.Request) {
-	log.Println("controllers TestHandler")
+	log.Println("test handler")
 
 	// extract field from get params
 	o := new(resource.Options)
@@ -28,17 +28,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("options", o)
 
-	// extract field from post data
-	err = r.ParseForm()
-	if err != nil {
-		log.Panic(err)
-	}
-
+	// parse json post
+	decoder := json.NewDecoder(r.Body)
 	p := new(resource.Model)
-	err = x.Decoder.Decode(p, r.PostForm)
-	if err != nil {
-		log.Panic(err)
-	}
+	decoder.Decode(&p)
 
 	log.Println("payload", p)
 
@@ -59,4 +52,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write(b)
+}
+
+func parseJSON(rw http.ResponseWriter, req *http.Request) {
+
 }
