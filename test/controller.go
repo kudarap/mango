@@ -19,25 +19,20 @@ var (
 func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("test handler")
 
-	// extract field from get params
 	o := new(resource.Options)
-	err := x.Decoder.Decode(o, r.URL.Query())
-	if err != nil {
-		log.Panic(err)
-	}
+	p := new(resource.Model)
 
+	// extract field from get params
+	x.ParseOption(o, r)
 	log.Println("options", o)
 
-	// parse json post
-	decoder := json.NewDecoder(r.Body)
-	p := new(resource.Model)
-	decoder.Decode(&p)
-
+	// extract field from json post
+	x.ParsePayload(p, r)
 	log.Println("payload", p)
 
-	// lets base on the request type
-	// use service
+	// lets base on the request type then use the service
 	var b []byte
+	var err error
 	switch r.Method {
 	case "GET":
 		b, err = json.Marshal(service.Find(o))
@@ -51,9 +46,5 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		log.Panic(err)
 	}
 
-	w.Write(b)
-}
-
-func parseJSON(rw http.ResponseWriter, req *http.Request) {
-
+	x.Render(b, w)
 }
