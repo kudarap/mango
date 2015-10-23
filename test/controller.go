@@ -5,15 +5,14 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/schema"
+	x "github.com/javinc/puto"
 	"github.com/javinc/puto/test/resource"
 	"github.com/javinc/puto/test/service"
 )
 
 var (
 	// Model for import use
-	Model   = resource.Model{}
-	decoder = schema.NewDecoder()
+	Model = resource.Model{}
 )
 
 // Handler catches /test endpoint
@@ -22,7 +21,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	// extract field from get params
 	o := new(resource.Options)
-	err := decoder.Decode(o, r.URL.Query())
+	err := x.Decoder.Decode(o, r.URL.Query())
 	if err != nil {
 		log.Panic(err)
 	}
@@ -36,7 +35,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	p := new(resource.Model)
-	err = decoder.Decode(p, r.PostForm)
+	err = x.Decoder.Decode(p, r.PostForm)
 	if err != nil {
 		log.Panic(err)
 	}

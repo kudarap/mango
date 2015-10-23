@@ -4,11 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-
-	"github.com/gorilla/schema"
 )
-
-var decoder = schema.NewDecoder()
 
 // Handler just to catch / uri
 func Handler(w http.ResponseWriter, r *http.Request) {
