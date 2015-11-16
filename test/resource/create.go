@@ -4,7 +4,7 @@ import x "github.com/javinc/puto"
 
 // Create resource
 func Create(m *Model) (Model, error) {
-	x.MySQL.Create(&m)
+	e := x.MySQL.Create(&m).Error
 
-	return *m, nil
+	return *m, e
 }

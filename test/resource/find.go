@@ -5,15 +5,15 @@ import x "github.com/javinc/puto"
 // Find resource
 func Find(o Options) ([]Model, error) {
 	models := []Model{}
-	x.MySQL.Find(&models, o.Filters)
+	e := x.MySQL.Find(&models, o.Filters).Error
 
-	return models, nil
+	return models, e
 }
 
 // Get resource
 func Get(o Options) (Model, error) {
 	model := Model{}
-	x.MySQL.First(&model, o.Filters)
+	e := x.MySQL.First(&model, o.Filters).Error
 
-	return model, nil
+	return model, e
 }

@@ -4,8 +4,12 @@ import x "github.com/javinc/puto"
 
 // Remove resource
 func Remove(o Options) (Model, error) {
-	model, _ := Get(o)
-	x.MySQL.Delete(&model)
+	model, e := Get(o)
+	if e != nil {
+		return Model{}, e
+	}
 
-	return model, nil
+	e = x.MySQL.Delete(&model).Error
+
+	return model, e
 }
