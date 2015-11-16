@@ -1,8 +1,11 @@
 package resource
 
-import "errors"
+import x "github.com/javinc/puto"
 
 // Remove resource
-func Remove(i int) error {
-	return errors.New("Remove method not available")
+func Remove(o Options) (Model, error) {
+	model, _ := Get(o)
+	x.MySQL.Delete(&model)
+
+	return model, nil
 }

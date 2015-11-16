@@ -36,9 +36,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		b, err = json.Marshal(service.Find(o))
-
 	case "POST":
 		b, err = json.Marshal(service.Create(p))
+	case "DELETE":
+		b, err = json.Marshal(service.Remove(o))
 	}
 
 	// render some value
