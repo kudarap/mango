@@ -40,6 +40,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		b, err = json.Marshal(service.Create(p))
 	case "DELETE":
 		b, err = json.Marshal(service.Remove(o))
+	case "PATCH":
+		b, err = json.Marshal(service.Update(p, o))
 	}
 
 	// render some value
