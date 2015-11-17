@@ -39,7 +39,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		b, err = json.Marshal(service.Create(p))
 	case "DELETE":
-		b, err = json.Marshal(service.Remove(o))
+		model, err := service.Remove(o)
+		if err != nil {
+			x.ErrorOutput(w, err, 500)
+		} else {
+			b, err = json.Marshal(model)
+		}
 	case "PATCH":
 		b, err = json.Marshal(service.Update(p, o))
 	}
@@ -47,7 +52,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// render some value
 	if err != nil {
 		log.Panic(err)
+
+		return
 	}
 
-	x.Render(b, w)
+	x.Output(w, b)
 }
