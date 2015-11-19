@@ -5,7 +5,13 @@ import x "github.com/javinc/puto"
 // Find resource
 func Find(o Options) ([]Model, error) {
 	models := []Model{}
-	e := x.MySQL.Find(&models, o.Filters).Error
+
+	// check fields if blank make it *
+	if len(o.Fields) == 0 {
+		o.Fields = []string{"*"}
+	}
+
+	e := x.MySQL.Select(o.Fields).Find(&models, o.Filters).Error
 
 	return models, e
 }
