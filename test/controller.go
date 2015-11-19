@@ -18,19 +18,20 @@ var (
 func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("test handler")
 
-	var id int
+	var single bool
 	o := new(resource.Options)
 	p := new(resource.Model)
 
 	// extracting resource id
 	if id, e := x.GetID(r); e == nil {
 		// assign id on Filters
+		single = true
 		o.Filters.ID = id
 	}
 
 	// extract field from get params
 	x.ParseOption(r, o)
-	log.Println("id", id)
+	log.Println("id", o.Filters.ID)
 	log.Println("options", o)
 
 	// extract field from json post
@@ -44,10 +45,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		// check if singles
-		if id == 0 {
-			model, err = service.Find(o)
-		} else {
+		if single {
 			model, err = service.Get(o)
+		} else {
+			model, err = service.Find(o)
 		}
 	case "POST":
 		model, err = service.Create(p)
