@@ -6,30 +6,37 @@ import (
 )
 
 // error structure
-type error struct {
-	Message string
-	Panic   bool
+type restError struct {
+	Msg   string `json:"msg"`
+	Panic bool   `json:"panic"`
 }
 
 // Output results
 func Output(w http.ResponseWriter, b []byte) {
-	setHeaders(w)
-	w.Write(b)
+	render(w, b, 200)
 }
 
 // ErrorOutput with coes
 func ErrorOutput(w http.ResponseWriter, e error, code int) {
-	setHeaders(w)
-
-	b, _ := json.Marshal(error{
+	b, _ := json.Marshal(restError{
 		e.Error(),
 		false,
 	})
 
-	http.Error(w, string(b), code)
+	if code == 0 {
+		code = 400
+	}
+
+	render(w, b, code)
 }
 
-func setHeaders(w http.ResponseWriter) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+func setHeaders(w http.ResponseWriter, code int) {
+	w.Header().Set("access-control-allow-origin", "*")
+	w.Header().Set("content-type", "application/json")
+	w.WriteHeader(code)
+}
+
+func render(w http.ResponseWriter, b []byte, code int) {
+	setHeaders(w, code)
+	w.Write(b)
 }
