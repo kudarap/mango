@@ -20,8 +20,8 @@ type Options struct {
 	Fields  []string
 	Limits  []int
 	Sorts   struct {
-		Asc  []string
-		Desc []string
+		Asc  string
+		Desc string
 	}
 }
 

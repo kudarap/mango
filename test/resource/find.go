@@ -18,10 +18,20 @@ func Find(o Options) ([]Model, error) {
 		o.Limits = []int{o.Limits[0], -1}
 	}
 
+	// sort
+	sort := o.Sorts.Asc
+	if o.Sorts.Desc != "" {
+		sort = o.Sorts.Desc + " desc"
+		if o.Sorts.Asc != "" {
+			sort += ", " + o.Sorts.Asc
+		}
+	}
+
 	e := x.MySQL.
 		Select(o.Fields).
 		Limit(o.Limits[0]).
 		Offset(o.Limits[1]).
+		Order(sort).
 		Find(&models, o.Filters).
 		Error
 
