@@ -22,11 +22,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	p := new(resource.Model)
 
 	// extract field from get params
-	x.ParseOption(o, r)
+	x.GetOption(r, o)
 	log.Println("options", o)
 
 	// extract field from json post
-	x.ParsePayload(p, r)
+	x.GetPayload(r, p)
 	log.Println("payload", p)
 
 	// lets base on the request type then use the service
@@ -35,7 +35,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// var err error
 	switch r.Method {
 	case "GET":
-		model, err = service.Find(o)
+		id, err := x.GetID(r)
+		if err != nil {
+			model, err = service.Find(o)
+		} else {
+			o.Filters.ID = id
+			model, err = service.Get(o)
+		}
 	case "POST":
 		model, err = service.Create(p)
 	case "DELETE":

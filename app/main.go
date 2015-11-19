@@ -18,6 +18,7 @@ func main() {
 	// Routes consist of a path and a handler function.
 	m.HandleFunc("/", index.Handler)
 	m.HandleFunc("/test", test.Handler)
+	m.HandleFunc("/test/{id:[0-9]+}", test.Handler)
 
 	// Migrates Db
 	x.MySQL.AutoMigrate(&test.Model)

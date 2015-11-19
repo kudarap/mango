@@ -11,3 +11,13 @@ func Find(o *r.Options) ([]r.Model, error) {
 
 	return rows, nil
 }
+
+// Get service
+func Get(o *r.Options) (r.Model, error) {
+	row, err := r.Get(*o)
+	if err != nil {
+		return r.Model{}, err
+	}
+
+	return row, nil
+}
