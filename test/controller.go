@@ -18,20 +18,22 @@ var (
 func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("test handler")
 
-	// extract field from get params
 	var id int
 	o := new(resource.Options)
+	p := new(resource.Model)
+
+	// extracting resource id
 	if id, e := x.GetID(r); e == nil {
 		// assign id on Filters
 		o.Filters.ID = id
 	}
 
+	// extract field from get params
 	x.ParseOption(r, o)
 	log.Println("id", id)
 	log.Println("options", o)
 
 	// extract field from json post
-	p := new(resource.Model)
 	x.ParsePayload(r, p)
 	log.Println("payload", p)
 
