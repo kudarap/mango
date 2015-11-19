@@ -1,7 +1,6 @@
 package test
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 
@@ -31,30 +30,23 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("payload", p)
 
 	// lets base on the request type then use the service
-	var b []byte
 	var err error
+	var model interface{}
+	// var err error
 	switch r.Method {
 	case "GET":
-		b, err = json.Marshal(service.Find(o))
+		model, err = service.Find(o)
 	case "POST":
-		b, err = json.Marshal(service.Create(p))
+		model, err = service.Create(p)
 	case "DELETE":
-		model, err := service.Remove(o)
-		if err != nil {
-			x.ErrorOutput(w, err, 500)
-		} else {
-			b, err = json.Marshal(model)
-		}
-	case "PATCH":
-		b, err = json.Marshal(service.Update(p, o))
+		model, err = service.Remove(o)
+	case "PUT":
+		model, err = service.Update(p, o)
 	}
 
-	// render some value
 	if err != nil {
-		log.Panic(err)
-
-		return
+		x.ErrorOutput(w, err, 400)
+	} else {
+		x.Output(w, model)
 	}
-
-	x.Output(w, b)
 }

@@ -2,6 +2,7 @@ package puto
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -12,7 +13,16 @@ type restError struct {
 }
 
 // Output results
-func Output(w http.ResponseWriter, b []byte) {
+func Output(w http.ResponseWriter, model interface{}) {
+	b, err := json.Marshal(model)
+
+	// render some value
+	if err != nil {
+		log.Panic(err)
+
+		return
+	}
+
 	render(w, b, 200)
 }
 
