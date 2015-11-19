@@ -29,3 +29,12 @@ type Options struct {
 func (x Model) TableName() string {
 	return objectName
 }
+
+// LoadDefaults will load values if not modified
+func (o Options) LoadDefaults() {
+	// fields if blank make it *
+	if len(o.Fields) == 0 {
+		o.Fields = []string{"*"}
+	}
+
+}

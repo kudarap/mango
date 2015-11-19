@@ -6,12 +6,24 @@ import x "github.com/javinc/puto"
 func Find(o Options) ([]Model, error) {
 	models := []Model{}
 
-	// check fields if blank make it *
+	// fields defaults
 	if len(o.Fields) == 0 {
 		o.Fields = []string{"*"}
 	}
 
-	e := x.MySQL.Select(o.Fields).Find(&models, o.Filters).Error
+	// limit & offset
+	if len(o.Limits) == 0 {
+		o.Limits = []int{-1, -1}
+	} else if len(o.Limits) == 1 {
+		o.Limits = []int{o.Limits[0], -1}
+	}
+
+	e := x.MySQL.
+		Select(o.Fields).
+		Limit(o.Limits[0]).
+		Offset(o.Limits[1]).
+		Find(&models, o.Filters).
+		Error
 
 	return models, e
 }
