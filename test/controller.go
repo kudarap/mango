@@ -18,15 +18,21 @@ var (
 func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("test handler")
 
-	o := new(resource.Options)
-	p := new(resource.Model)
-
 	// extract field from get params
-	x.GetOption(r, o)
+	var id int
+	o := new(resource.Options)
+	if id, e := x.GetID(r); e == nil {
+		// assign id on Filters
+		o.Filters.ID = id
+	}
+
+	x.ParseOption(r, o)
+	log.Println("id", id)
 	log.Println("options", o)
 
 	// extract field from json post
-	x.GetPayload(r, p)
+	p := new(resource.Model)
+	x.ParsePayload(r, p)
 	log.Println("payload", p)
 
 	// lets base on the request type then use the service
@@ -36,11 +42,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		// check if singles
-		if id, e := x.GetID(r); e != nil {
+		if id == 0 {
 			model, err = service.Find(o)
 		} else {
-			// assign id on Filters
-			o.Filters.ID = id
 			model, err = service.Get(o)
 		}
 	case "POST":

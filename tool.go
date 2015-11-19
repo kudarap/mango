@@ -10,16 +10,16 @@ import (
 	"github.com/gorilla/schema"
 )
 
-// GetPayload parse post json input
-func GetPayload(r *http.Request, model interface{}) error {
+// ParsePayload parse post json input
+func ParsePayload(r *http.Request, model interface{}) error {
 	d := json.NewDecoder(r.Body)
 	err := d.Decode(&model)
 
 	return err
 }
 
-// GetOption parse get params
-func GetOption(r *http.Request, model interface{}) error {
+// ParseOption parse get params
+func ParseOption(r *http.Request, model interface{}) error {
 	d := schema.NewDecoder()
 	err := d.Decode(model, r.URL.Query())
 
