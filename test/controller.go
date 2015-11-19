@@ -22,8 +22,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	var single bool
 	var model interface{}
 
-	// inits objects
+	// inits objects and load default values
 	o := new(resource.Options)
+	o.LoadDefaults()
 	p := new(resource.Model)
 
 	// extracting resource id

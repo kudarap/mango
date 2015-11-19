@@ -18,8 +18,11 @@ type Model struct {
 type Options struct {
 	Filters Model
 	Fields  []string
-	Limits  []int
-	Sorts   struct {
+	Page    struct {
+		Limit  int
+		Offset int
+	}
+	Sort struct {
 		Asc  string
 		Desc string
 	}
@@ -31,10 +34,23 @@ func (x Model) TableName() string {
 }
 
 // LoadDefaults will load values if not modified
-func (o Options) LoadDefaults() {
-	// fields if blank make it *
+func (o *Options) LoadDefaults() {
+	// fields defaults
 	if len(o.Fields) == 0 {
 		o.Fields = []string{"*"}
 	}
 
+	// page limit & offset
+	if o.Page.Limit == 0 {
+		o.Page.Limit = -1
+	}
+
+	if o.Page.Offset == 0 {
+		o.Page.Offset = -1
+	}
+
+	// sort
+	if o.Sort.Desc != "" {
+		o.Sort.Desc += " desc"
+	}
 }
