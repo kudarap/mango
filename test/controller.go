@@ -18,7 +18,11 @@ var (
 func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("test handler")
 
+	var err error
 	var single bool
+	var model interface{}
+
+	// inits objects
 	o := new(resource.Options)
 	p := new(resource.Model)
 
@@ -39,9 +43,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("payload", p)
 
 	// lets base on the request type then use the service
-	var err error
-	var model interface{}
-	// var err error
 	switch r.Method {
 	case "GET":
 		// check if singles
@@ -58,6 +59,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		model, err = service.Update(p, o)
 	}
 
+	// response error
 	if err != nil {
 		x.ErrorOutput(w, err, 400)
 
