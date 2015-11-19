@@ -35,10 +35,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// var err error
 	switch r.Method {
 	case "GET":
-		id, err := x.GetID(r)
-		if err != nil {
+		// check if singles
+		if id, e := x.GetID(r); e != nil {
 			model, err = service.Find(o)
 		} else {
+			// assign id on Filters
 			o.Filters.ID = id
 			model, err = service.Get(o)
 		}
@@ -52,7 +53,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		x.ErrorOutput(w, err, 400)
-	} else {
-		x.Output(w, model)
+
+		return
 	}
+
+	x.Output(w, model)
 }
