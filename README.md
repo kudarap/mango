@@ -6,8 +6,11 @@
 - component base structure
 
 ## usage
+### setup
 - run server
     - `go run app/main.app`
+
+### consume
 - listing
     - `curl -X GET localhost:8000/test`
 - detail
@@ -19,7 +22,7 @@
 - updating
     - `curl -X PUT -d '{"title":"dragon","description":"some description"}' localhost:8000/test/1`
 
-## options
+### options
 - filters
     - `/test?filters.id=1`
 - fields
