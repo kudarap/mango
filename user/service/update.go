@@ -1,6 +1,6 @@
 package service
 
-import r "github.com/javinc/puto/test/resource"
+import r "github.com/javinc/puto/user/resource"
 
 // Update service
 func Update(m *r.Model, o *r.Options) (r.Model, error) {

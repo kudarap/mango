@@ -1,4 +1,4 @@
-package test
+package user
 
 import (
 	"errors"
@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	x "github.com/javinc/puto"
-	"github.com/javinc/puto/test/resource"
-	"github.com/javinc/puto/test/service"
+	"github.com/javinc/puto/user/resource"
+	"github.com/javinc/puto/user/service"
 )
 
 var (
@@ -15,9 +15,9 @@ var (
 	Model = resource.Model{}
 )
 
-// Handler catches /test endpoint
+// Handler catches /user endpoint
 func Handler(w http.ResponseWriter, r *http.Request) {
-	log.Println("test handler")
+	log.Println("user handler")
 
 	var err error
 	var single bool

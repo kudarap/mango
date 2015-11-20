@@ -1,6 +1,6 @@
 package service
 
-import r "github.com/javinc/puto/test/resource"
+import r "github.com/javinc/puto/user/resource"
 
 // Find service
 func Find(o *r.Options) ([]r.Model, error) {
