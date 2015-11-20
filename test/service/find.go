@@ -9,7 +9,7 @@ func Find(o *r.Options) ([]r.Model, error) {
 		return []r.Model{}, err
 	}
 
-	return rows, nil
+	return rows, err
 }
 
 // Get service
@@ -19,5 +19,5 @@ func Get(o *r.Options) (r.Model, error) {
 		return r.Model{}, err
 	}
 
-	return row, nil
+	return row, err
 }

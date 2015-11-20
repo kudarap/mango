@@ -9,5 +9,5 @@ func Update(m *r.Model, o *r.Options) (r.Model, error) {
 		return r.Model{}, err
 	}
 
-	return row, nil
+	return row, err
 }

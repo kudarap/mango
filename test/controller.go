@@ -1,6 +1,7 @@
 package test
 
 import (
+	"errors"
 	"log"
 	"net/http"
 
@@ -44,9 +45,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("payload", p)
 
 	// lets base on the request type then use the service
+	err = errors.New("request method not allowed")
 	switch r.Method {
 	case "GET":
-		// check if singles
 		if single {
 			model, err = service.Get(o)
 		} else {
@@ -55,9 +56,15 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		model, err = service.Create(p)
 	case "DELETE":
-		model, err = service.Remove(o)
+		err = errors.New("id not defined")
+		if single {
+			model, err = service.Remove(o)
+		}
 	case "PUT":
-		model, err = service.Update(p, o)
+		err = errors.New("id not defined")
+		if single {
+			model, err = service.Update(p, o)
+		}
 	}
 
 	// response error

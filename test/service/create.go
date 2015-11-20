@@ -9,5 +9,5 @@ func Create(m *r.Model) (r.Model, error) {
 		return r.Model{}, err
 	}
 
-	return row, nil
+	return row, err
 }

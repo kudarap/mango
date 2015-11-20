@@ -1,6 +1,9 @@
 package resource
 
-import x "github.com/javinc/puto"
+import (
+	"errors"
+	x "github.com/javinc/puto"
+)
 
 // Find resource
 func Find(o Options) ([]Model, error) {
@@ -27,6 +30,11 @@ func Get(o Options) (Model, error) {
 
 	models, e := Find(o)
 
-	// get 1st
+	// check if exists
+	if len(models) == 0 {
+		return Model{}, errors.New("record not found")
+	}
+
+	// get single
 	return models[0], e
 }
