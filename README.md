@@ -1,11 +1,11 @@
-# puto toolkit #
+# puto toolkit
 
-## objective ##
+## objective
 - learning GoLang & implement patterns
 - JSON RESTful API
 - component base structure
 
-## usage ##
+## usage
 - run server
     - `go run app/main.app`
 - listing
@@ -19,7 +19,7 @@
 - updating
     - `curl -X PUT -d '{"title":"dragon","description":"some description"}' localhost:8000/test/1`
 
-## options ##
+## options
 - filters
     - `/test?filters.id=1`
 - fields
