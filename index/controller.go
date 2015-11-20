@@ -8,7 +8,7 @@ import (
 
 // Handler just to catch / uri
 func Handler(w http.ResponseWriter, r *http.Request) {
-	render := r.Method + " Goryo!\n"
+	render := r.Method + " Puto!\n"
 	render += "URL is " + r.URL.String() + "\n"
 
 	getParam := r.URL.Query()
