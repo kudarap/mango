@@ -72,7 +72,7 @@ func Handler(c *gin.Context) {
 
 	// response error
 	if err != nil {
-		x.ErrorOutput(w, err, 400)
+		x.ErrorOutput(w, err)
 
 		return
 	}

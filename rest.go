@@ -23,21 +23,27 @@ func Output(w http.ResponseWriter, model interface{}) {
 		return
 	}
 
-	render(w, b, 200)
+	render(w, b, http.StatusOK)
 }
 
-// ErrorOutput with coes
-func ErrorOutput(w http.ResponseWriter, e error, code int) {
+// ErrorOutput badrequest error
+func ErrorOutput(w http.ResponseWriter, e error) {
 	b, _ := json.Marshal(restError{
 		e.Error(),
 		false,
 	})
 
-	if code == 0 {
-		code = 400
-	}
+	render(w, b, http.StatusBadRequest)
+}
 
-	render(w, b, code)
+// PanicOutput internal errro catch
+func PanicOutput(w http.ResponseWriter, e error) {
+	b, _ := json.Marshal(restError{
+		e.Error(),
+		true,
+	})
+
+	render(w, b, http.StatusInternalServerError)
 }
 
 func setHeaders(w http.ResponseWriter, code int) {
