@@ -1,4 +1,4 @@
-# puto toolkit
+# Puto
 
 ## objective
 - learning GoLang & implement patterns
