@@ -5,8 +5,9 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+	"strings"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 	"github.com/gorilla/schema"
 )
 
@@ -26,16 +27,9 @@ func ParseOption(r *http.Request, model interface{}) error {
 	return err
 }
 
-// GetSegment extract Request URI
-func GetSegment(r *http.Request, key string) string {
-	vars := mux.Vars(r)
-
-	return vars[key]
-}
-
 // GetID on segment
-func GetID(r *http.Request) (int, error) {
-	id := GetSegment(r, "id")
+func GetID(c *gin.Context) (int, error) {
+	id := strings.Trim(c.Param("id"), "/")
 	if id == "" {
 		return 0, errors.New("id not exists")
 	}

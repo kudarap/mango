@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 	x "github.com/javinc/puto"
 	"github.com/javinc/puto/index"
 	"github.com/javinc/puto/test"
@@ -14,15 +14,18 @@ import (
 // port server
 const port = "8000"
 
+func sample(c *gin.Context) {
+	name := c.Param("id")
+	c.String(http.StatusOK, "Hello %s", name)
+}
+
 func main() {
-	m := mux.NewRouter()
+	router := gin.Default()
 
 	// Routes consist of a path and a handler function.
-	m.HandleFunc("/", index.Handler)
-	m.HandleFunc("/test", test.Handler)
-	m.HandleFunc("/test/{id:[0-9]+}", test.Handler)
-	m.HandleFunc("/user", user.Handler)
-	m.HandleFunc("/user/{id:[0-9]+}", user.Handler)
+	router.Any("/", index.Handler)
+	router.Any("/test/*id", test.Handler)
+	router.Any("/user/*id", user.Handler)
 
 	// Migrates Db
 	x.MySQL.AutoMigrate(
@@ -30,7 +33,6 @@ func main() {
 		&user.Model,
 	)
 
-	// Bind to a port and pass our router in
 	log.Println("serving on port", port)
-	http.ListenAndServe(":"+port, m)
+	router.Run(":" + port)
 }

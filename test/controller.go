@@ -3,8 +3,8 @@ package test
 import (
 	"errors"
 	"log"
-	"net/http"
 
+	"github.com/gin-gonic/gin"
 	x "github.com/javinc/puto"
 	"github.com/javinc/puto/test/resource"
 	"github.com/javinc/puto/test/service"
@@ -16,12 +16,15 @@ var (
 )
 
 // Handler catches /test endpoint
-func Handler(w http.ResponseWriter, r *http.Request) {
+func Handler(c *gin.Context) {
 	log.Println("test handler")
 
 	var err error
 	var single bool
 	var model interface{}
+
+	r := c.Request
+	w := c.Writer
 
 	// inits objects and load default values
 	o := new(resource.Options)
@@ -29,7 +32,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	p := new(resource.Model)
 
 	// extracting resource id
-	if id, e := x.GetID(r); e == nil {
+	if id, e := x.GetID(c); e == nil {
 		// assign id on Filters
 		single = true
 		o.Filters.ID = id

@@ -1,15 +1,18 @@
 package index
 
 import (
+	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"net/url"
 )
 
 // Handler just to catch / uri
-func Handler(w http.ResponseWriter, r *http.Request) {
+func Handler(c *gin.Context) {
 	log.Println("index handler")
+
+	r := c.Request
+	w := c.Writer
 
 	render := "Method: " + r.Method + "\n\n"
 	render += "URL: " + r.URL.String() + "\n"
