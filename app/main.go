@@ -20,7 +20,7 @@ func sample(c *gin.Context) {
 }
 
 func main() {
-	router := gin.Default()
+	router := gin.New()
 
 	// Routes consist of a path and a handler function.
 	router.Any("/", index.Handler)
