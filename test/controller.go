@@ -53,6 +53,9 @@ func Handler(c *gin.Context) {
 	case "GET":
 		if single {
 			model, err = service.Get(o)
+		} else if o.Search != "" {
+			log.Println("searching for " + o.Search)
+			model, err = service.Search(o)
 		} else {
 			model, err = service.Find(o)
 		}

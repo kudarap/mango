@@ -16,6 +16,7 @@ type Model struct {
 
 // Options resource
 type Options struct {
+	Search  string
 	Filters Model
 	Fields  []string
 	Page    struct {

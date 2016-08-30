@@ -2,8 +2,22 @@ package resource
 
 import (
 	"errors"
+
 	x "github.com/javinc/puto"
 )
+
+// Search resource
+func Search(key string) ([]Model, error) {
+	models := []Model{}
+
+	e := x.MySQL.
+		Where("title LIKE ?", "%"+key+"%").
+		Or("description LIKE ?", "%"+key+"%").
+		Find(&models).
+		Error
+
+	return models, e
+}
 
 // Find resource
 func Find(o Options) ([]Model, error) {
