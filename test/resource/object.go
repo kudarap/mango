@@ -18,7 +18,7 @@ type Model struct {
 type Options struct {
 	Search  string
 	Filters Model
-	Fields  []string
+	Fields  string
 	Page    struct {
 		Limit  int
 		Offset int
@@ -38,7 +38,7 @@ func (x Model) TableName() string {
 func (o *Options) LoadDefaults() {
 	// fields defaults
 	if len(o.Fields) == 0 {
-		o.Fields = []string{"*"}
+		o.Fields = "*"
 	}
 
 	// page limit & offset
