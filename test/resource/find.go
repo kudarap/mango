@@ -7,12 +7,17 @@ import (
 )
 
 // Search resource
-func Search(key string) ([]Model, error) {
+func Search(o Options) ([]Model, error) {
 	models := []Model{}
 
+	k := o.Search
 	e := x.MySQL.
-		Where("title LIKE ?", "%"+key+"%").
-		Or("description LIKE ?", "%"+key+"%").
+		Select(o.Fields).
+		Where("title LIKE ?", "%"+k+"%").
+		Or("description LIKE ?", "%"+k+"%").
+		Offset(o.Page.Offset).
+		Order(o.Sort.Asc).
+		Order(o.Sort.Desc).
 		Find(&models).
 		Error
 

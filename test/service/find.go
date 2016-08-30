@@ -4,7 +4,7 @@ import r "github.com/javinc/puto/test/resource"
 
 // Search service
 func Search(o *r.Options) ([]r.Model, error) {
-	rows, err := r.Search(o.Search)
+	rows, err := r.Search(*o)
 	if err != nil {
 		return []r.Model{}, err
 	}
