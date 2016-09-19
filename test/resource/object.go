@@ -6,11 +6,11 @@ const objectName = "test"
 
 // Model resource object
 type Model struct {
-	ID          int        `json:"id"`
-	Title       string     `json:"title" sql:"size:255"`
-	Description string     `json:"description" sql:"size:255"`
-	CreatedAt   time.Time  `json:"created_at"`
-	UpdatedAt   time.Time  `json:"updated_at"`
+	ID          int        `json:"id,omitempty"`
+	Title       string     `json:"title,omitempty" sql:"size:255"`
+	Description string     `json:"description,omitempty" sql:"size:255"`
+	CreatedAt   time.Time  `json:"created_at,omitempty"`
+	UpdatedAt   time.Time  `json:"updated_at,omitempty"`
 	DeletedAt   *time.Time `json:"-"`
 }
 

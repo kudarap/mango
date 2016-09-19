@@ -6,12 +6,12 @@ const objectName = "user"
 
 // Model resource object
 type Model struct {
-	ID        int        `json:"id"`
-	First     string     `json:"first" sql:"size:255"`
-	Last      string     `json:"last" sql:"size:255"`
-	Email     string     `json:"email" sql:"size:255"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
+	ID        int        `json:"id,omitempty"`
+	First     string     `json:"first,omitempty" sql:"size:255"`
+	Last      string     `json:"last,omitempty" sql:"size:255"`
+	Email     string     `json:"email,omitempty" sql:"size:255"`
+	CreatedAt time.Time  `json:"created_at,omitempty"`
+	UpdatedAt time.Time  `json:"updated_a,omitemptyt"`
 	DeletedAt *time.Time `json:"-"`
 }
 
