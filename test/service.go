@@ -27,5 +27,6 @@ func (t *Service) Update(p Object, id string) Object {
 }
 
 // Remove test
-func (t *Service) Remove() {
+func (t *Service) Remove(id string) bool {
+	return resource.HardRemove(id)
 }

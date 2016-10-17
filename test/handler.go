@@ -77,9 +77,9 @@ func Handler(c *gin.Context) {
 			return
 		}
 
-		module.Output(gin.H{
-			"msg": "welcome DELETE",
-		})
+		d := service.Remove(id)
+
+		module.Output(d)
 
 		return
 	}
