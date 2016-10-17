@@ -12,11 +12,13 @@ func (t *Service) Find() []Object {
 }
 
 // Get test
-func (t *Service) Get() {
+func (t *Service) Get(id string) Object {
+	return resource.Get(id)
 }
 
 // Create test
-func (t *Service) Create() {
+func (t *Service) Create(p Object) Object {
+	return resource.Create(p)
 }
 
 // Update test

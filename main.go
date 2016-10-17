@@ -10,6 +10,7 @@ func main() {
 
 	// Routes consist of a path and a handler function.
 	router.Any("/test", test.Handler)
+	router.Any("/test/:id", test.Handler)
 
 	router.Run(":8000")
 }

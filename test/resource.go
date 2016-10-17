@@ -42,21 +42,26 @@ func (t *Resource) Find() []Object {
 }
 
 // Get test
-func (t *Resource) Get() Object {
-	return Object{
-		ID:          "100",
-		Title:       "James",
-		Description: "testing ground",
+func (t *Resource) Get(id string) Object {
+	data := Object{}
+
+	res, err := r.Table(tableName).Get(id).Run(module.RSession)
+	if err != nil {
+		log.Fatalln(err.Error())
 	}
+
+	err = res.One(&data)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+
+	return data
 }
 
 // Create test
-func (t *Resource) Create() {
+func (t *Resource) Create(p Object) Object {
 	// Create the item
-	payload := Object{
-		Title:       "James",
-		Description: "testing ground",
-	}
+	payload := p
 
 	// meta data
 	payload.CreatedAt = time.Now()
@@ -66,12 +71,16 @@ func (t *Resource) Create() {
 	_, err := r.Table(tableName).Insert(payload).RunWrite(module.RSession)
 	if err != nil {
 		log.Fatalln(err.Error())
-		return
+
+		return Object{}
 	}
+
+	return payload
 }
 
 // Update test
 func (t *Resource) Update() {
+
 }
 
 // Remove test

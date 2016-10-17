@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/javinc/mango/module"
 )
 
 // Login test
@@ -16,63 +17,76 @@ var service Service
 
 // Handler test
 func Handler(c *gin.Context) {
+	module.SetContext(c)
+
+	id := c.Param("id")
+
 	switch c.Request.Method {
 	case http.MethodGet:
+		// detail
+		if id != "" {
+			d := service.Get(id)
+			module.Output(d)
 
+			return
+		}
+
+		// list
 		d := service.Find()
-
-		c.JSON(http.StatusOK, d)
+		module.Output(d)
 
 		return
 	case http.MethodPost:
-		c.JSON(http.StatusOK, gin.H{
-			"msg": "welcome POST",
-		})
+		var payload Object
+		err := c.BindJSON(&payload)
+		if err != nil {
+			module.Panic(
+				"REQUIRED_FIELDS",
+				"user and pass field is required",
+			)
+
+			return
+		}
+
+		d := service.Create(payload)
+
+		module.Output(d)
 
 		return
 	case http.MethodPut:
-		c.JSON(http.StatusOK, gin.H{
+		if id == "" {
+			module.Error(
+				"RESOURCE_ID_REQUIRED",
+				"resource id is missing",
+			)
+
+			return
+		}
+
+		module.Output(gin.H{
 			"msg": "welcome PUT",
 		})
 
 		return
 	case http.MethodDelete:
-		c.JSON(http.StatusOK, gin.H{
+		if id == "" {
+			module.Error(
+				"RESOURCE_ID_REQUIRED",
+				"resource id is missing",
+			)
+
+			return
+		}
+
+		module.Output(gin.H{
 			"msg": "welcome DELETE",
 		})
 
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, gin.H{
-		"panic": false,
-		"name":  "METHOD_NOT_ALLOWED",
-		"msg":   c.Request.Method + " method not allowed in this endpoint",
-	})
-}
-
-func x(c *gin.Context) {
-	var payload Login
-	err := c.BindJSON(&payload)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"panic": true,
-			"name":  "REQUIRED_FIELDS",
-			"msg":   "user and pass field is required",
-		})
-
-		return
-	}
-
-	if payload.User == "test" && payload.Pass == "123" {
-		c.JSON(http.StatusOK, gin.H{
-			"status": "you are logged in",
-		})
-	} else {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"panic": false,
-			"name":  "LOGIN_FAILED",
-			"msg":   "please check your user and pass",
-		})
-	}
+	module.Error(
+		"METHOD_NOT_ALLOWED",
+		c.Request.Method+" method not allowed in this endpoint",
+	)
 }
