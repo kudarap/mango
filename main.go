@@ -1,26 +1,15 @@
 package main
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
+	"github.com/javinc/mango/test"
 )
-
-// port server
-const port = "8000"
 
 func main() {
 	router := gin.New()
 
 	// Routes consist of a path and a handler function.
-	router.Any("/", indexHandler)
+	router.Any("/test", test.Handler)
 
-	log.Println("serving on port", port)
-	router.Run(":" + port)
-}
-
-func indexHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "pong",
-	})
+	router.Run(":8000")
 }
