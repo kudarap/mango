@@ -9,15 +9,20 @@ import (
 // RSession rethink
 var (
 	RSession *r.Session
+
+	host     = "localhost"
+	port     = "28015"
+	database = "mango"
+	maxOpen  = 40
 )
 
 func init() {
 	var err error
 
 	RSession, err = r.Connect(r.ConnectOpts{
-		Address:  "localhost:28015",
-		Database: "mango",
-		MaxOpen:  40,
+		Address:  host + ":" + port,
+		Database: database,
+		MaxOpen:  maxOpen,
 	})
 
 	if err != nil {
