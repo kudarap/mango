@@ -26,6 +26,7 @@ func main() {
 	router.Any("/", index.Handler)
 	router.Any("/test/*id", test.Handler)
 	router.Any("/user/*id", user.Handler)
+	router.Any("/login", user.LoginHandler)
 
 	// Migrates Db
 	x.MySQL.AutoMigrate(

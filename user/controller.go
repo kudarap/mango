@@ -79,3 +79,12 @@ func Handler(c *gin.Context) {
 
 	x.Output(w, model)
 }
+
+// LoginHandler catches /login endpoint
+func LoginHandler(c *gin.Context) {
+	log.Println("login handler")
+
+	c.JSON(200, gin.H{
+		"message": "pong",
+	})
+}

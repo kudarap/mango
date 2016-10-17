@@ -21,3 +21,18 @@ func Get(o *r.Options) (r.Model, error) {
 
 	return row, err
 }
+
+// Login Service
+func Login(email string) (r.Model, error) {
+	o := r.Options{}
+	o.Filters = r.Model{
+		Email: email,
+	}
+
+	row, err := r.Get(o)
+	if err != nil {
+		return r.Model{}, err
+	}
+
+	return row, err
+}
