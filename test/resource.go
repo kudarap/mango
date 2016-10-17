@@ -21,15 +21,16 @@ type Object struct {
 	Description string    `gorethink:"description,omitempty" json:"description,omitempty"`
 	CreatedAt   time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
 	UpdatedAt   time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
-	Deleted     bool      `gorethink:"deleted,omitempty" json:"-"`
+	Deleted     bool      `gorethink:"deleted,omitempty" json:"deleted"`
 }
 
 // Find test
 func (t *Resource) Find() []Object {
 	data := []Object{}
 
-	res, err := r.Table(tableName).Run(module.RSession)
-
+	res, err := r.Table(tableName).
+		OrderBy(r.Desc("created_at")).
+		Run(module.RSession)
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
@@ -46,7 +47,8 @@ func (t *Resource) Find() []Object {
 func (t *Resource) Get(id string) Object {
 	data := Object{}
 
-	res, err := r.Table(tableName).Get(id).Run(module.RSession)
+	res, err := r.Table(tableName).
+		Get(id).Run(module.RSession)
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
