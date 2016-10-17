@@ -40,10 +40,7 @@ func Handler(c *gin.Context) {
 		var payload Object
 		err := c.BindJSON(&payload)
 		if err != nil {
-			module.Panic(
-				"REQUIRED_FIELDS",
-				"user and pass field is required",
-			)
+			module.Panic("REQUIRED_FIELDS", "field is required")
 
 			return
 		}
@@ -55,25 +52,27 @@ func Handler(c *gin.Context) {
 		return
 	case http.MethodPut:
 		if id == "" {
-			module.Error(
-				"RESOURCE_ID_REQUIRED",
-				"resource id is missing",
-			)
+			module.Error("RESOURCE_ID_REQUIRED", "resource id is missing")
 
 			return
 		}
 
-		module.Output(gin.H{
-			"msg": "welcome PUT",
-		})
+		var payload Object
+		err := c.BindJSON(&payload)
+		if err != nil {
+			module.Panic("REQUIRED_FIELDS", "field is required")
+
+			return
+		}
+
+		d := service.Update(payload, id)
+
+		module.Output(d)
 
 		return
 	case http.MethodDelete:
 		if id == "" {
-			module.Error(
-				"RESOURCE_ID_REQUIRED",
-				"resource id is missing",
-			)
+			module.Error("RESOURCE_ID_REQUIRED", "resource id is missing")
 
 			return
 		}
@@ -85,8 +84,6 @@ func Handler(c *gin.Context) {
 		return
 	}
 
-	module.Error(
-		"METHOD_NOT_ALLOWED",
-		c.Request.Method+" method not allowed in this endpoint",
-	)
+	module.Error("METHOD_NOT_ALLOWED",
+		c.Request.Method+" method not allowed in this endpoint")
 }

@@ -22,7 +22,8 @@ func (t *Service) Create(p Object) Object {
 }
 
 // Update test
-func (t *Service) Update() {
+func (t *Service) Update(p Object, id string) Object {
+	return resource.Update(p, id)
 }
 
 // Remove test

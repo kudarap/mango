@@ -16,11 +16,11 @@ type Resource struct {
 
 // Object test
 type Object struct {
-	ID          string     `gorethink:"id,omitempty" json:"id"`
-	Title       string     `json:"title,omitempty"`
-	Description string     `json:"description,omitempty"`
-	CreatedAt   time.Time  `json:"created_at"`
-	UpdatedAt   time.Time  `json:"updated_at"`
+	ID          string     `gorethink:"id,omitempty" json:"id,omitempty"`
+	Title       string     `gorethink:"title,omitempty" json:"title,omitempty"`
+	Description string     `gorethink:"description,omitempty" json:"description,omitempty"`
+	CreatedAt   time.Time  `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
+	UpdatedAt   time.Time  `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
 	DeletedAt   *time.Time `json:"-"`
 }
 
@@ -60,27 +60,43 @@ func (t *Resource) Get(id string) Object {
 
 // Create test
 func (t *Resource) Create(p Object) Object {
-	// Create the item
-	payload := p
-
 	// meta data
-	payload.CreatedAt = time.Now()
-	payload.UpdatedAt = time.Now()
+	p.CreatedAt = time.Now()
+	p.UpdatedAt = time.Now()
 
 	// insert to database
-	_, err := r.Table(tableName).Insert(payload).RunWrite(module.RSession)
+	_, err := r.Table(tableName).Insert(p).RunWrite(module.RSession)
 	if err != nil {
 		log.Fatalln(err.Error())
 
 		return Object{}
 	}
 
-	return payload
+	return p
 }
 
 // Update test
-func (t *Resource) Update() {
+func (t *Resource) Update(p Object, id string) Object {
+	// check item if exists
+	payload := t.Get(id)
+	if payload.ID == "" {
+		log.Fatalln("not exists")
 
+		return Object{}
+	}
+
+	// meta data
+	p.UpdatedAt = time.Now()
+
+	// insert to database
+	_, err := r.Table(tableName).Get(id).Update(p).Run(module.RSession)
+	if err != nil {
+		log.Fatalln(err.Error())
+
+		return Object{}
+	}
+
+	return p
 }
 
 // Remove test
