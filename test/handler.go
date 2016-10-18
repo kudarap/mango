@@ -26,6 +26,7 @@ func Handler(c *gin.Context) {
 		if id == "" {
 			var option = Option{
 				Slice: c.Query("slice"),
+				Sort:  c.Query("sort"),
 			}
 
 			d, err := service.Find(option)

@@ -46,7 +46,14 @@ func (t *Resource) Find(o Option) ([]Object, error) {
 	}
 
 	// sorting
-	q = q.OrderBy(r.Desc("created_at"))
+	if o.Sort != "" {
+		sort := strings.Split(strings.ToLower(o.Sort), ",")
+		if len(sort) == 2 && sort[1] == "desc" {
+			q = q.OrderBy(r.Desc(sort[0]))
+		} else {
+			q = q.OrderBy(sort[0])
+		}
+	}
 
 	res, err := q.Run(module.RSession)
 	if err != nil {
