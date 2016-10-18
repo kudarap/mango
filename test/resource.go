@@ -29,6 +29,11 @@ type Option struct {
 	Filter Object
 	Slice  string
 	Sort   string
+	Search string
+}
+
+func init() {
+	r.TableCreate(tableName).Run(module.RSession)
 }
 
 // Find test
@@ -95,7 +100,7 @@ func (t *Resource) Create(p Object) (Object, error) {
 	p.UpdatedAt = time.Now()
 
 	// insert to database
-	_, err := r.Table(tableName).Insert(p).Run(module.RSession)
+	_, err := r.Table(tableName).Insert(p).RunWrite(module.RSession)
 	if err != nil {
 		return Object{}, err
 	}
@@ -115,7 +120,7 @@ func (t *Resource) Update(p Object, id string) (Object, error) {
 	p.UpdatedAt = time.Now()
 
 	// insert to database
-	_, err = r.Table(tableName).Get(id).Update(p).Run(module.RSession)
+	_, err = r.Table(tableName).Get(id).Update(p).RunWrite(module.RSession)
 	if err != nil {
 		return Object{}, err
 	}
@@ -132,7 +137,7 @@ func (t *Resource) Remove(id string) (bool, error) {
 	}
 
 	// insert to database
-	_, err = r.Table(tableName).Get(id).Delete().Run(module.RSession)
+	_, err = r.Table(tableName).Get(id).Delete().RunWrite(module.RSession)
 	if err != nil {
 		return false, err
 	}
