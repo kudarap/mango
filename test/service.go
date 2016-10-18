@@ -7,8 +7,8 @@ type Service struct {
 var resource Resource
 
 // Find test
-func (t *Service) Find() ([]Object, error) {
-	return resource.Find()
+func (t *Service) Find(o Option) ([]Object, error) {
+	return resource.Find(o)
 }
 
 // Get test

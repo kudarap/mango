@@ -1,6 +1,8 @@
 package test
 
 import (
+	"strconv"
+	"strings"
 	"time"
 
 	r "github.com/dancannon/gorethink"
@@ -22,11 +24,29 @@ type Object struct {
 	UpdatedAt   time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
 
+// Option test
+type Option struct {
+	Filter Object
+	Slice  string
+	Sort   string
+}
+
 // Find test
-func (t *Resource) Find() ([]Object, error) {
+func (t *Resource) Find(o Option) ([]Object, error) {
 	data := []Object{}
 
-	q := r.Table(tableName).OrderBy(r.Desc("created_at"))
+	q := r.Table(tableName)
+
+	// slicing
+	if o.Slice != "" {
+		slice := strings.Split(o.Slice, ",")
+		start, _ := strconv.Atoi(slice[0])
+		end, _ := strconv.Atoi(slice[1])
+		q = q.Slice(start, end)
+	}
+
+	// sorting
+	q = q.OrderBy(r.Desc("created_at"))
 
 	res, err := q.Run(module.RSession)
 	if err != nil {

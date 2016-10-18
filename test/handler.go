@@ -17,15 +17,18 @@ var service Service
 
 // Handler test
 func Handler(c *gin.Context) {
-	module.SetContext(c)
-
 	id := c.Param("id")
+	module.SetContext(c)
 
 	switch c.Request.Method {
 	case http.MethodGet:
 		// list
 		if id == "" {
-			d, err := service.Find()
+			var option = Option{
+				Slice: c.Query("slice"),
+			}
+
+			d, err := service.Find(option)
 			if err != nil {
 				module.Error("GET_RESOURCE_TEST", err.Error())
 			}
