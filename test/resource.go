@@ -1,7 +1,6 @@
 package test
 
 import (
-	"log"
 	"time"
 
 	r "github.com/dancannon/gorethink"
@@ -24,44 +23,43 @@ type Object struct {
 }
 
 // Find test
-func (t *Resource) Find() []Object {
+func (t *Resource) Find() ([]Object, error) {
 	data := []Object{}
 
 	res, err := r.Table(tableName).
 		OrderBy(r.Desc("created_at")).
 		Run(module.RSession)
 	if err != nil {
-		log.Fatalln(err.Error())
+		return data, err
 	}
 
 	err = res.All(&data)
 	if err != nil {
-		log.Fatalln(err.Error())
+		return data, err
 	}
 
-	return data
+	return data, err
 }
 
 // Get test
-func (t *Resource) Get(id string) Object {
+func (t *Resource) Get(id string) (Object, error) {
 	data := Object{}
 
-	res, err := r.Table(tableName).
-		Get(id).Run(module.RSession)
+	res, err := r.Table(tableName).Get(id).Run(module.RSession)
 	if err != nil {
-		log.Fatalln(err.Error())
+		return data, err
 	}
 
 	err = res.One(&data)
 	if err != nil {
-		log.Fatalln(err.Error())
+		return data, err
 	}
 
-	return data
+	return data, err
 }
 
 // Create test
-func (t *Resource) Create(p Object) Object {
+func (t *Resource) Create(p Object) (Object, error) {
 	// meta data
 	p.CreatedAt = time.Now()
 	p.UpdatedAt = time.Now()
@@ -69,55 +67,45 @@ func (t *Resource) Create(p Object) Object {
 	// insert to database
 	_, err := r.Table(tableName).Insert(p).Run(module.RSession)
 	if err != nil {
-		log.Fatalln(err.Error())
-
-		return Object{}
+		return Object{}, err
 	}
 
-	return p
+	return p, err
 }
 
 // Update test
-func (t *Resource) Update(p Object, id string) Object {
+func (t *Resource) Update(p Object, id string) (Object, error) {
 	// check item if exists
-	payload := t.Get(id)
-	if payload.ID == "" {
-		log.Fatalln("not exists")
-
-		return Object{}
+	_, err := t.Get(id)
+	if err != nil {
+		return Object{}, err
 	}
 
-	// meta data
+	// update meta data
 	p.UpdatedAt = time.Now()
 
 	// insert to database
-	_, err := r.Table(tableName).Get(id).Update(p).Run(module.RSession)
+	_, err = r.Table(tableName).Get(id).Update(p).Run(module.RSession)
 	if err != nil {
-		log.Fatalln(err.Error())
-
-		return Object{}
+		return Object{}, err
 	}
 
-	return p
+	return p, err
 }
 
 // Remove test
-func (t *Resource) Remove(id string) bool {
+func (t *Resource) Remove(id string) (bool, error) {
 	// check item if exists
-	payload := t.Get(id)
-	if payload.ID == "" {
-		log.Fatalln("not exists")
-
-		return false
+	_, err := t.Get(id)
+	if err != nil {
+		return false, err
 	}
 
 	// insert to database
-	_, err := r.Table(tableName).Get(id).Delete().Run(module.RSession)
+	_, err = r.Table(tableName).Get(id).Delete().Run(module.RSession)
 	if err != nil {
-		log.Fatalln(err.Error())
-
-		return false
+		return false, err
 	}
 
-	return true
+	return true, nil
 }

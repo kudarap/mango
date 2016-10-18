@@ -25,14 +25,24 @@ func Handler(c *gin.Context) {
 	case http.MethodGet:
 		// detail
 		if id != "" {
-			d := service.Get(id)
+			d, err := service.Get(id)
+			if err != nil {
+				module.Error("GET_RESOURCE_TEST", err.Error())
+
+				return
+			}
+
 			module.Output(d)
 
 			return
 		}
 
 		// list
-		d := service.Find()
+		d, err := service.Find()
+		if err != nil {
+			module.Error("GET_RESOURCE_TEST", err.Error())
+		}
+
 		module.Output(d)
 
 		return
@@ -45,7 +55,10 @@ func Handler(c *gin.Context) {
 			return
 		}
 
-		d := service.Create(payload)
+		d, err := service.Create(payload)
+		if err != nil {
+			module.Error("POST_RESOURCE_TEST", err.Error())
+		}
 
 		module.Output(d)
 
@@ -65,7 +78,12 @@ func Handler(c *gin.Context) {
 			return
 		}
 
-		d := service.Update(payload, id)
+		d, err := service.Update(payload, id)
+		if err != nil {
+			module.Error("PUT_RESOURCE_TEST", err.Error())
+
+			return
+		}
 
 		module.Output(d)
 
@@ -77,7 +95,12 @@ func Handler(c *gin.Context) {
 			return
 		}
 
-		d := service.Remove(id)
+		d, err := service.Remove(id)
+		if err != nil {
+			module.Error("DELETE_RESOURCE_TEST", err.Error())
+
+			return
+		}
 
 		module.Output(d)
 
