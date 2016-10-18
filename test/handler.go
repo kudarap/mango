@@ -23,13 +23,11 @@ func Handler(c *gin.Context) {
 
 	switch c.Request.Method {
 	case http.MethodGet:
-		// detail
-		if id != "" {
-			d, err := service.Get(id)
+		// list
+		if id == "" {
+			d, err := service.Find()
 			if err != nil {
 				module.Error("GET_RESOURCE_TEST", err.Error())
-
-				return
 			}
 
 			module.Output(d)
@@ -37,10 +35,12 @@ func Handler(c *gin.Context) {
 			return
 		}
 
-		// list
-		d, err := service.Find()
+		// detail
+		d, err := service.Get(id)
 		if err != nil {
 			module.Error("GET_RESOURCE_TEST", err.Error())
+
+			return
 		}
 
 		module.Output(d)

@@ -26,9 +26,9 @@ type Object struct {
 func (t *Resource) Find() ([]Object, error) {
 	data := []Object{}
 
-	res, err := r.Table(tableName).
-		OrderBy(r.Desc("created_at")).
-		Run(module.RSession)
+	q := r.Table(tableName).OrderBy(r.Desc("created_at"))
+
+	res, err := q.Run(module.RSession)
 	if err != nil {
 		return data, err
 	}
