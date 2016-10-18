@@ -55,6 +55,9 @@ func (t *Resource) Find(o Option) ([]Object, error) {
 		}
 	}
 
+	// filtering
+	q = q.Filter(o.Filter)
+
 	res, err := q.Run(module.RSession)
 	if err != nil {
 		return data, err

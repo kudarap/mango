@@ -24,9 +24,16 @@ func Handler(c *gin.Context) {
 	case http.MethodGet:
 		// list
 		if id == "" {
-			var option = Option{
-				Slice: c.Query("slice"),
-				Sort:  c.Query("sort"),
+			filter := Object{
+				ID:          c.Query("filter.ID"),
+				Title:       c.Query("filter.title"),
+				Description: c.Query("filter.description"),
+			}
+
+			option := Option{
+				Slice:  c.Query("slice"),
+				Sort:   c.Query("sort"),
+				Filter: filter,
 			}
 
 			d, err := service.Find(option)
