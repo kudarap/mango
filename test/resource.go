@@ -21,7 +21,6 @@ type Object struct {
 	Description string    `gorethink:"description,omitempty" json:"description,omitempty"`
 	CreatedAt   time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
 	UpdatedAt   time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
-	Deleted     bool      `gorethink:"deleted,omitempty" json:"deleted"`
 }
 
 // Find test
@@ -66,7 +65,6 @@ func (t *Resource) Create(p Object) Object {
 	// meta data
 	p.CreatedAt = time.Now()
 	p.UpdatedAt = time.Now()
-	p.Deleted = false
 
 	// insert to database
 	_, err := r.Table(tableName).Insert(p).Run(module.RSession)
@@ -105,32 +103,6 @@ func (t *Resource) Update(p Object, id string) Object {
 
 // Remove test
 func (t *Resource) Remove(id string) bool {
-	// check item if exists
-	payload := t.Get(id)
-	if payload.ID == "" {
-		log.Fatalln("not exists")
-
-		return false
-	}
-
-	// meta data
-	p := Object{}
-	p.UpdatedAt = time.Now()
-	p.Deleted = true
-
-	// insert to database
-	_, err := r.Table(tableName).Get(id).Update(p).Run(module.RSession)
-	if err != nil {
-		log.Fatalln(err.Error())
-
-		return false
-	}
-
-	return true
-}
-
-// HardRemove test
-func (t *Resource) HardRemove(id string) bool {
 	// check item if exists
 	payload := t.Get(id)
 	if payload.ID == "" {
