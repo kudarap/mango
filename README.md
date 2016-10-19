@@ -9,7 +9,8 @@
 ## usage
 ### setup
 - run server
-    - `go run main.app`
+    - start up rethinkdb server
+    - `go run main.go`
 
 ### consume
 - listing
