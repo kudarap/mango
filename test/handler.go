@@ -32,7 +32,7 @@ func Handler(c *gin.Context) {
 
 			option := Option{
 				Slice:  c.Query("slice"),
-				Sort:   c.Query("sort"),
+				Order:  c.Query("order"),
 				Filter: filter,
 			}
 

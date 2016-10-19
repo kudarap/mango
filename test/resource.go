@@ -28,7 +28,7 @@ type Object struct {
 type Option struct {
 	Filter Object
 	Slice  string
-	Sort   string
+	Order  string
 	Search string
 }
 
@@ -50,13 +50,13 @@ func (t *Resource) Find(o Option) ([]Object, error) {
 		q = q.Slice(start, end)
 	}
 
-	// sorting
-	if o.Sort != "" {
-		sort := strings.Split(strings.ToLower(o.Sort), ",")
-		if len(sort) == 2 && sort[1] == "desc" {
-			q = q.OrderBy(r.Desc(sort[0]))
+	// ordering
+	if o.Order != "" {
+		order := strings.Split(strings.ToLower(o.Order), ",")
+		if len(order) == 2 && order[1] == "desc" {
+			q = q.OrderBy(r.Desc(order[0]))
 		} else {
-			q = q.OrderBy(sort[0])
+			q = q.OrderBy(order[0])
 		}
 	}
 
