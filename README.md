@@ -1,4 +1,4 @@
-# Puto
+# ManGo
 
 ## feature
 - JSON RESTful API
