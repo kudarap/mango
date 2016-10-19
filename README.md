@@ -19,10 +19,10 @@
     - `curl -X GET localhost:8000/test/1`
 - create
     - `curl -X POST -d '{"title":"dragon","description":"some dragon"}' localhost:8000/test`
-- demove
-    - `curl -X DELETE localhost:8000/test/1`
 - update
     - `curl -X PUT -d '{"title":"dragon","description":"some dragon"}' localhost:8000/test/1`
+- remove
+    - `curl -X DELETE localhost:8000/test/1`
 
 ### options
 - filters
