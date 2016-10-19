@@ -26,12 +26,13 @@
 
 ### options
 - filters
-    - `/test?filter.id=1` result
+    - `/test?filter.id=1` return row with an id is 1
 - sorting
     - `/test?order=id` ascending by default
+    - `/test?order=id,asc` ascending order
     - `/test?order=id,desc` descending order
 - pagination
-    - `/test?slice=0,10` first ten rows
+    - `/test?slice=0,10` first 10 rows
 - fields (NOT SUPPORTED YET)
     - `/test?fields=id`
     - `/test?fields=id,title`
