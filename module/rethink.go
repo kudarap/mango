@@ -28,4 +28,6 @@ func init() {
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
+
+	r.DBCreate(db).Run(RSession)
 }
