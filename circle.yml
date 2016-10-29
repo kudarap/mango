@@ -12,4 +12,5 @@ dependencies:
     - sleep 5
 test:
   pre:
+    - ./maingo
     - dredd
