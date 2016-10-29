@@ -9,7 +9,6 @@ dependencies:
     - echo "cache-size=128" | sudo tee --append /etc/rethinkdb/instances.d/instance1.conf
     - echo "no-http-admin" | sudo tee --append /etc/rethinkdb/instances.d/instance1.conf
     - sudo /etc/init.d/rethinkdb restart
-    - sleep 5
 test:
   pre:
     - ./mango &
