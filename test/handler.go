@@ -74,7 +74,7 @@ func Handler(c *gin.Context) {
 		module.Output(d)
 
 		return
-	case http.MethodPut:
+	case http.MethodPatch:
 		if id == "" {
 			module.Error("RESOURCE_ID_REQUIRED", "resource id is missing")
 

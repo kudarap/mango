@@ -6,16 +6,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var contcext *gin.Context
+var context *gin.Context
 
 // SetContext format
 func SetContext(c *gin.Context) {
-	contcext = c
+	context = c
 }
 
 // Error format
 func Error(name string, msg string) {
-	contcext.JSON(http.StatusBadRequest, gin.H{
+	context.JSON(http.StatusBadRequest, gin.H{
 		"panic": false,
 		"name":  name,
 		"msg":   msg,
@@ -24,7 +24,7 @@ func Error(name string, msg string) {
 
 // Panic format
 func Panic(name string, msg string) {
-	contcext.JSON(http.StatusInternalServerError, gin.H{
+	context.JSON(http.StatusInternalServerError, gin.H{
 		"panic": true,
 		"name":  name,
 		"msg":   msg,
@@ -33,5 +33,5 @@ func Panic(name string, msg string) {
 
 // Output format
 func Output(data interface{}) {
-	contcext.JSON(http.StatusOK, data)
+	context.JSON(http.StatusOK, data)
 }
