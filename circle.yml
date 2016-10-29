@@ -12,6 +12,6 @@ dependencies:
     - sleep 5
 test:
   pre:
-    - chmod +x ./mango
     - ./mango &
+    - sleep 5
     - dredd
