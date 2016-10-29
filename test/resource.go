@@ -129,18 +129,18 @@ func (t *Resource) Update(p Object, id string) (Object, error) {
 }
 
 // Remove test
-func (t *Resource) Remove(id string) (bool, error) {
+func (t *Resource) Remove(id string) (Object, error) {
 	// check item if exists
-	_, err := t.Get(id)
+	p, err := t.Get(id)
 	if err != nil {
-		return false, err
+		return Object{}, err
 	}
 
 	// insert to database
 	_, err = r.Table(tableName).Get(id).Delete().RunWrite(module.RSession)
 	if err != nil {
-		return false, err
+		return Object{}, err
 	}
 
-	return true, nil
+	return p, nil
 }
