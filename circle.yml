@@ -12,7 +12,8 @@ dependencies:
     - sleep 5
 test:
   pre:
-    - sudo /etc/init.d/rethinkdb status
-    - ./mango
+    - ./mango:
+      background: true
+    - sleep 5
     - curl -i localhost:8000
     - dredd
