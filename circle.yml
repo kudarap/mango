@@ -12,8 +12,7 @@ dependencies:
     - sleep 5
 test:
   pre:
-    - ./mango:
-      background: true
+    - nohup bash -c "./mango &"
     - sleep 5
     - curl -i localhost:8000
     - dredd
