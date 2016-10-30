@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/fvbock/endless"
 	"github.com/javinc/mango/module"
 	"github.com/javinc/mango/test"
 	"github.com/javinc/mango/user"
@@ -19,5 +20,6 @@ func main() {
 	r.Any("/user", user.Handler)
 	r.Any("/user/:id", user.Handler)
 
-	r.Run(":8000")
+	// graceful shutdown
+	endless.ListenAndServe(":8000", r)
 }

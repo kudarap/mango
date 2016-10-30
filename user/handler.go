@@ -128,6 +128,7 @@ func LoginHandler(c *gin.Context) {
 	x.Output(gin.H{
 		"hello": "real world",
 	})
+
 }
 
 // MeHandler check authentication
