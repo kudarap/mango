@@ -10,7 +10,13 @@ var context *gin.Context
 
 // Router gin
 func Router() *gin.Engine {
-	return gin.New()
+	r := gin.New()
+
+	// Global middleware
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
+
+	return r
 }
 
 // SetContext format
