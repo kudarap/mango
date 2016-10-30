@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/javinc/mango/module"
 	"github.com/javinc/mango/test"
 )
 
 func main() {
-	router := gin.New()
+	router := module.Router()
 
 	// Routes consist of a path and a handler function.
 	router.Any("/test", test.Handler)

@@ -14,11 +14,22 @@ modular architecture powered by RethinkDb and GoLang
 + created_at: `2014-11-11T08:40:51.620Z` (required)
 + updated_at: `2014-11-11T08:40:51.620Z` (required)
 
+## User (object)
++ id: userid (string, required)
++ name: james vincent (string, required)
++ email: koko@koko.com (string, required)
++ created_at: `2014-11-11T08:40:51.620Z` (required)
++ updated_at: `2014-11-11T08:40:51.620Z` (required)
+
+
+# Group Notes
+Group description (also with *Markdown*)
+
 ## Test [/test]
 
 ### List [GET]
 + Response 200 (application/json; charset=utf-8)
-    + Attributes (array[Test, Test, Test])
+    + Attributes (array[Test])
 
 ### Create [POST]
 + Request (application/json; charset=utf-8)
@@ -46,3 +57,40 @@ modular architecture powered by RethinkDb and GoLang
     + id: `testid` (string, required)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (Test)
+
+
+# Group User
+Group description (also with *Markdown*)
+
+## User [/user]
+
+### List [GET]
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (array[User])
+
+### Create [POST]
++ Request (application/json; charset=utf-8)
+    + Attributes (User)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (User)
+
+## User Detail [/user/{id}]
+### Detail [GET]
++ Parameters
+    + id: `userid` (string, required)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (User)
+
+### Update [PATCH]
++ Parameters
+    + id: `userid` (string, required)
++ Request (application/json; charset=utf-8)
+    + Attributes (User)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (User)
+
+### Remove [DELETE]
++ Parameters
+    + id: `userid` (string, required)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (User)

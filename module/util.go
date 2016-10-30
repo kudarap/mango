@@ -8,6 +8,11 @@ import (
 
 var context *gin.Context
 
+// Router gin
+func Router() *gin.Engine {
+	return gin.New()
+}
+
 // SetContext format
 func SetContext(c *gin.Context) {
 	context = c
