@@ -1,4 +1,4 @@
-package test
+package user
 
 import (
 	"strconv"
@@ -9,7 +9,7 @@ import (
 	"github.com/javinc/mango/module"
 )
 
-const resourceName = "test"
+const resourceName = "user"
 
 // Resource test
 type Resource struct {
@@ -17,11 +17,11 @@ type Resource struct {
 
 // Object test
 type Object struct {
-	ID          string    `gorethink:"id,omitempty" json:"id,omitempty"`
-	Title       string    `gorethink:"title,omitempty" json:"title,omitempty"`
-	Description string    `gorethink:"description,omitempty" json:"description,omitempty"`
-	CreatedAt   time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
-	UpdatedAt   time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
+	ID        string    `gorethink:"id,omitempty" json:"id,omitempty"`
+	Name      string    `gorethink:"name,omitempty" json:"name,omitempty"`
+	Email     string    `gorethink:"email,omitempty" json:"email,omitempty"`
+	CreatedAt time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
+	UpdatedAt time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
 
 // Option test

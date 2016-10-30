@@ -1,4 +1,4 @@
-package test
+package user
 
 import (
 	"net/http"
@@ -7,6 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/javinc/mango/module"
 )
+
+// Login test
+type Login struct {
+	User string `json:"user" binding:"required"`
+	Pass string `json:"pass" binding:"required"`
+}
 
 var service Service
 
@@ -20,8 +26,8 @@ func Handler(c *gin.Context) {
 		// list
 		if id == "" {
 			filter := Object{
-				Title:       c.Query("filter.title"),
-				Description: c.Query("filter.description"),
+				Name:  c.Query("filter.name"),
+				Email: c.Query("filter.email"),
 			}
 
 			option := Option{
