@@ -1,12 +1,13 @@
 package module
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-var context *gin.Context
+var ctx *gin.Context
 
 // Router gin
 func Router() *gin.Engine {
@@ -21,21 +22,33 @@ func Router() *gin.Engine {
 
 // SetContext format
 func SetContext(c *gin.Context) {
-	context = c
+	ctx = c
 }
 
 // Error format
 func Error(name string, msg string) {
-	context.JSON(http.StatusBadRequest, gin.H{
+	checkContext()
+
+	ctx.JSON(http.StatusBadRequest, gin.H{
 		"panic": false,
 		"name":  name,
 		"msg":   msg,
 	})
 }
 
+// MethodNotAllowed restricted method
+func MethodNotAllowed() {
+	checkContext()
+
+	Error("METHOD_NOT_ALLOWED",
+		ctx.Request.Method+" method not allowed in this endpoint")
+}
+
 // Panic format
 func Panic(name string, msg string) {
-	context.JSON(http.StatusInternalServerError, gin.H{
+	checkContext()
+
+	ctx.JSON(http.StatusInternalServerError, gin.H{
 		"panic": true,
 		"name":  name,
 		"msg":   msg,
@@ -44,5 +57,22 @@ func Panic(name string, msg string) {
 
 // Output format
 func Output(data interface{}) {
-	context.JSON(http.StatusOK, data)
+	checkContext()
+
+	ctx.JSON(http.StatusOK, data)
+}
+
+// GET format
+func GET(handler func()) {
+	checkContext()
+
+	if ctx.Request.Method == http.MethodGet {
+		handler()
+	}
+}
+
+func checkContext() {
+	if ctx == nil {
+		log.Fatalln("ctx is undefined, please set it on handler")
+	}
 }

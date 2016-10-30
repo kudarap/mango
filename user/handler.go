@@ -5,21 +5,22 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/javinc/mango/module"
+	x "github.com/javinc/mango/module"
 )
 
 // Login test
 type Login struct {
-	User string `json:"user" binding:"required"`
-	Pass string `json:"pass" binding:"required"`
+	Email string `json:"email" binding:"required"`
+	Pass  string `json:"pass" binding:"required"`
 }
 
 var service Service
 
 // Handler test
 func Handler(c *gin.Context) {
+	x.SetContext(c)
+
 	id := c.Param("id")
-	module.SetContext(c)
 
 	switch c.Request.Method {
 	case http.MethodGet:
@@ -38,10 +39,10 @@ func Handler(c *gin.Context) {
 
 			d, err := service.Find(option)
 			if err != nil {
-				module.Error("GET_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
+				x.Error("GET_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
 			}
 
-			module.Output(d)
+			x.Output(d)
 
 			return
 		}
@@ -49,34 +50,34 @@ func Handler(c *gin.Context) {
 		// detail
 		d, err := service.Get(id)
 		if err != nil {
-			module.Error("GET_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
+			x.Error("GET_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
 
 			return
 		}
 
-		module.Output(d)
+		x.Output(d)
 
 		return
 	case http.MethodPost:
 		var payload Object
 		err := c.BindJSON(&payload)
 		if err != nil {
-			module.Panic("REQUIRED_FIELDS", "field is required")
+			x.Panic("REQUIRED_FIELDS", "field is required")
 
 			return
 		}
 
 		d, err := service.Create(payload)
 		if err != nil {
-			module.Error("POST_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
+			x.Error("POST_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
 		}
 
-		module.Output(d)
+		x.Output(d)
 
 		return
 	case http.MethodPatch:
 		if id == "" {
-			module.Error("RESOURCE_ID_REQUIRED", "resource id is missing")
+			x.Error("RESOURCE_ID_REQUIRED", "resource id is missing")
 
 			return
 		}
@@ -84,40 +85,64 @@ func Handler(c *gin.Context) {
 		var payload Object
 		err := c.BindJSON(&payload)
 		if err != nil {
-			module.Panic("REQUIRED_FIELDS", "field is required")
+			x.Panic("REQUIRED_FIELDS", "field is required")
 
 			return
 		}
 
 		d, err := service.Update(payload, id)
 		if err != nil {
-			module.Error("PUT_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
+			x.Error("PUT_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
 
 			return
 		}
 
-		module.Output(d)
+		x.Output(d)
 
 		return
 	case http.MethodDelete:
 		if id == "" {
-			module.Error("RESOURCE_ID_REQUIRED", "resource id is missing")
+			x.Error("RESOURCE_ID_REQUIRED", "resource id is missing")
 
 			return
 		}
 
 		d, err := service.Remove(id)
 		if err != nil {
-			module.Error("DELETE_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
+			x.Error("DELETE_RESOURCE_"+strings.ToUpper(resourceName), err.Error())
 
 			return
 		}
 
-		module.Output(d)
+		x.Output(d)
 
 		return
 	}
 
-	module.Error("METHOD_NOT_ALLOWED",
-		c.Request.Method+" method not allowed in this endpoint")
+	x.MethodNotAllowed()
+}
+
+// LoginHandler user login
+func LoginHandler(c *gin.Context) {
+	x.SetContext(c)
+
+	x.Output(gin.H{
+		"hello": "real world",
+	})
+}
+
+// MeHandler check authentication
+func MeHandler(c *gin.Context) {
+	x.SetContext(c)
+
+	switch c.Request.Method {
+	case http.MethodGet:
+		x.Output(gin.H{
+			"me": "hahahha",
+		})
+
+		return
+	}
+
+	x.MethodNotAllowed()
 }

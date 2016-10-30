@@ -13,6 +13,9 @@ func main() {
 	r.Any("/test", test.Handler)
 	r.Any("/test/:id", test.Handler)
 
+	r.Any("/login", user.LoginHandler)
+	r.Any("/me", user.MeHandler)
+
 	r.Any("/user", user.Handler)
 	r.Any("/user/:id", user.Handler)
 
