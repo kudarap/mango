@@ -7,12 +7,6 @@ import (
 	"github.com/javinc/mango/module"
 )
 
-// Login test
-type Login struct {
-	User string `json:"user" binding:"required"`
-	Pass string `json:"pass" binding:"required"`
-}
-
 var service Service
 
 // Handler test
