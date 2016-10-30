@@ -1,7 +1,6 @@
 package test
 
 import (
-	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +15,7 @@ func Handler(c *gin.Context) {
 	x.SetContext(c)
 
 	switch c.Request.Method {
-	case http.MethodGet:
+	case x.GET:
 		// list
 		if id == "" {
 			filter := Object{
@@ -51,7 +50,7 @@ func Handler(c *gin.Context) {
 		x.Output(d)
 
 		return
-	case http.MethodPost:
+	case x.POST:
 		var payload Object
 		err := c.BindJSON(&payload)
 		if err != nil {
@@ -68,7 +67,7 @@ func Handler(c *gin.Context) {
 		x.Output(d)
 
 		return
-	case http.MethodPatch:
+	case x.PATCH:
 		if id == "" {
 			x.Error("RESOURCE_ID_REQUIRED", "resource id is missing")
 
@@ -93,7 +92,7 @@ func Handler(c *gin.Context) {
 		x.Output(d)
 
 		return
-	case http.MethodDelete:
+	case x.DELETE:
 		if id == "" {
 			x.Error("RESOURCE_ID_REQUIRED", "resource id is missing")
 

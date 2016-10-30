@@ -7,6 +7,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	// GET method
+	GET = http.MethodGet
+	// POST method
+	POST = http.MethodPost
+	// PATCH method
+	PATCH = http.MethodPatch
+	// DELETE method
+	DELETE = http.MethodDelete
+)
+
 var ctx *gin.Context
 
 // Router gin
@@ -60,15 +71,6 @@ func Output(data interface{}) {
 	checkContext()
 
 	ctx.JSON(http.StatusOK, data)
-}
-
-// GET format
-func GET(handler func()) {
-	checkContext()
-
-	if ctx.Request.Method == http.MethodGet {
-		handler()
-	}
 }
 
 func checkContext() {
