@@ -1,11 +1,18 @@
 package module
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
+
+type config struct {
+	Host    string `json:"host"`
+	Rethink rethinkConfig
+}
 
 const (
 	// GET method
@@ -16,9 +23,27 @@ const (
 	PATCH = http.MethodPatch
 	// DELETE method
 	DELETE = http.MethodDelete
+
+	configPath = "config.json"
 )
 
-var ctx *gin.Context
+var (
+	ctx *gin.Context
+	// Config settings
+	Config config
+)
+
+func init() {
+	file, _ := os.Open(configPath)
+	decoder := json.NewDecoder(file)
+	err := decoder.Decode(&Config)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	log.Println("config.json loaded")
+	log.Println(Config)
+}
 
 // Router gin
 func Router() *gin.Engine {

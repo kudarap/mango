@@ -21,5 +21,5 @@ func main() {
 	r.Any("/user/:id", user.Handler)
 
 	// graceful shutdown
-	endless.ListenAndServe(":8000", r)
+	endless.ListenAndServe(module.Config.Host, r)
 }

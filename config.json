@@ -1,0 +1,8 @@
+{
+  "host": "localhost:8000",
+  "rethink": {
+    "host": "localhost:28015",
+    "db": "mango",
+    "max_open": 40
+  }
+}
