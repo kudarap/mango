@@ -125,10 +125,16 @@ func Handler(c *gin.Context) {
 func LoginHandler(c *gin.Context) {
 	x.SetContext(c)
 
-	x.Output(gin.H{
-		"hello": "real world",
-	})
+	switch c.Request.Method {
+	case x.POST:
+		x.Output(gin.H{
+			"hello": "real world",
+		})
 
+		return
+	}
+
+	x.MethodNotAllowed()
 }
 
 // MeHandler check authentication
