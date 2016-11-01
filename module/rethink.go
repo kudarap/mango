@@ -1,6 +1,7 @@
 package module
 
 import (
+	"errors"
 	"log"
 
 	r "github.com/dancannon/gorethink"
@@ -21,6 +22,11 @@ var (
 func Rethink() {
 	var err error
 
+	// check credentials
+	if Config.Rethink.Host == "" || Config.Rethink.Db == "" {
+		log.Fatalln(errors.New("rethink host or db not defined"))
+	}
+
 	RSession, err = r.Connect(r.ConnectOpts{
 		Address:  Config.Rethink.Host,
 		Database: Config.Rethink.Db,
@@ -28,7 +34,9 @@ func Rethink() {
 	})
 
 	if err != nil {
-		log.Fatalln(err.Error())
+		log.Fatalln(err)
+
+		return
 	}
 
 	r.DBCreate(Config.Rethink.Db).Run(RSession)
