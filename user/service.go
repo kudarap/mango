@@ -55,12 +55,12 @@ func (t *Service) Login(email, pass string) (EmailAuth, error) {
 
 	auth := EmailAuth{
 		ID:   user.ID,
-		Type: user.Name,
+		Type: "admin",
 	}
 
 	token, err := x.CreateToken(map[string]interface{}{
-		"id":   user.ID,
-		"type": "admin",
+		"id":   auth.ID,
+		"type": auth.Type,
 	})
 
 	if err != nil {

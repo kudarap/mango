@@ -130,14 +130,14 @@ func LoginHandler(c *gin.Context) {
 
 		err := c.BindJSON(&payload)
 		if err != nil {
-			x.Panic("BIND_ERROR", err.Error())
+			x.Panic("JSON_BIND_ERROR", err.Error())
 
 			return
 		}
 
 		auth, err := service.Login(payload.Email, payload.Pass)
 		if err != nil {
-			x.Error("LOGIN_ERROR", err.Error())
+			x.Error("EMAIL_LOGIN_ERROR", err.Error())
 
 			return
 		}
