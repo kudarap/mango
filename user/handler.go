@@ -120,8 +120,8 @@ func LoginHandler(c *gin.Context) {
 	x.SetContext(c)
 
 	type Login struct {
-		Email string `json:"email" binding:"required"`
-		Pass  string `json:"pass" binding:"required"`
+		Email    string `json:"email" binding:"required"`
+		Password string `json:"password" binding:"required"`
 	}
 
 	switch c.Request.Method {
@@ -135,7 +135,7 @@ func LoginHandler(c *gin.Context) {
 			return
 		}
 
-		auth, err := service.Login(payload.Email, payload.Pass)
+		auth, err := service.Login(payload.Email, payload.Password)
 		if err != nil {
 			x.Error("EMAIL_LOGIN_ERROR", err.Error())
 
