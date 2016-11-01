@@ -17,11 +17,13 @@ type Resource struct {
 
 // Object file
 type Object struct {
-	ID          string    `gorethink:"id,omitempty" json:"id,omitempty"`
-	Title       string    `gorethink:"title,omitempty" json:"title,omitempty"`
-	Description string    `gorethink:"description,omitempty" json:"description,omitempty"`
-	CreatedAt   time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
-	UpdatedAt   time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
+	ID        string    `gorethink:"id,omitempty" json:"id,omitempty"`
+	Slug      string    `gorethink:"slug,omitempty" json:"slug,omitempty"`
+	Extension string    `gorethink:"extension,omitempty" json:"extension,omitempty"`
+	Mime      string    `gorethink:"mime,omitempty" json:"mime,omitempty"`
+	Size      int       `gorethink:"size,omitempty" json:"size,omitempty"`
+	CreatedAt time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
+	UpdatedAt time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
 
 // Option file

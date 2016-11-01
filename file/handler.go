@@ -1,6 +1,7 @@
 package file
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -13,12 +14,12 @@ var service Service
 func Handler(c *gin.Context) {
 	x.SetContext(c)
 
-	_, err := x.GetAuth()
-	if err != nil {
-		x.Error("AUTH_ERROR", err.Error())
-
-		return
-	}
+	// _, err := x.GetAuth()
+	// if err != nil {
+	// 	x.Error("AUTH_ERROR", err.Error())
+	//
+	// 	return
+	// }
 
 	id := c.Param("id")
 
@@ -26,9 +27,12 @@ func Handler(c *gin.Context) {
 	case x.GET:
 		// list
 		if id == "" {
+			size, _ := strconv.Atoi(c.Query("filter.size"))
 			filter := Object{
-				Title:       c.Query("filter.title"),
-				Description: c.Query("filter.description"),
+				Slug:      c.Query("filter.slug"),
+				Extension: c.Query("filter.extension"),
+				Mime:      c.Query("filter.mime"),
+				Size:      size,
 			}
 
 			option := Option{

@@ -18,12 +18,50 @@ modular architecture powered by RethinkDb and GoLang
 + id: userid (string, required)
 + name: james vincent (string, required)
 + email: koko@koko.com (string, required)
++ password: somehashpassword (string, required)
 + created_at: `2016-10-10T08:40:51.620Z` (required)
 + updated_at: `2016-10-10T08:40:51.620Z` (required)
 
+## File (object)
++ id: fileid (string, required)
++ slug: somefilehash (string, required)
++ extension: png (string, required)
++ mime: image/png (string, required)
++ size: 12 (number, required)
++ created_at: `2016-10-10T08:40:51.620Z` (required)
++ updated_at: `2016-10-10T08:40:51.620Z` (required)
+
+# Group Auth
+Authentication instructions
+
+## Auth [/login]
+
+### Login [POST]
++ Request (application/json; charset=utf-8)
+    + Attributes
+        + email: test@koko.com (string, required)
+        + password: admin (string, required)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes
+        + id: testid (string, required)
+        + type: admin (string, required)
+        + token: somejwttoken (string, required)
+
+## Me [/me]
+
+### Detail [GET]
++ Request
+    + Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZiMDhkMTJkLWM3MzEtNDdiMy04ZTVkLWI5ZWFiMzU3MWRhNiIsInR5cGUiOiJhZG1pbiJ9.GIFFeL8qaKZ1y09TRckhdsabgmGL512HVlybdjZMVyY 
++ Response 200 (application/json; charset=utf-8)
+    + Attributes
+        + id: testid (string, required)
+        + type: admin (string, required)
+
 
 # Group Test
-Get or set tags on notes
+Test endpoint for quick start
 
 ## Test [/test]
 
@@ -94,3 +132,40 @@ Group description (also with *Markdown*)
     + id: `userid` (string, required)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (User)
+
+
+# Group File
+File endpoint manager
+
+## File [/file]
+
+### List [GET]
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (array[File])
+
+### Create [POST]
++ Request (application/json; charset=utf-8)
+    + Attributes (File)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (File)
+
+## File Detail [/file/{id}]
+### Detail [GET]
++ Parameters
+    + id: `fileid` (string, required)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (File)
+
+### Update [PATCH]
++ Parameters
+    + id: `fileid` (string, required)
++ Request (application/json; charset=utf-8)
+    + Attributes (File)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (File)
+
+### Remove [DELETE]
++ Parameters
+    + id: `fileid` (string, required)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (File)
