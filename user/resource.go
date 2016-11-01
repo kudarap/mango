@@ -122,8 +122,10 @@ func (t *Resource) Get(id string) (Object, error) {
 
 // Create resource
 func (t *Resource) Create(p Object) (Object, error) {
-	// set uuid
-	p.ID = module.GenerateHash()
+	// set uuid if not set
+	if p.ID == "" {
+		p.ID = module.GenerateHash()
+	}
 
 	// meta data
 	p.CreatedAt = time.Now()
