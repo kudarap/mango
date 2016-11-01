@@ -7,8 +7,6 @@ import (
 
 // RegisterHandler user register
 func RegisterHandler(c *gin.Context) {
-	x.SetContext(c)
-
 	switch c.Request.Method {
 	case x.POST:
 		var payload Object
@@ -38,8 +36,6 @@ func RegisterHandler(c *gin.Context) {
 
 // LoginHandler user login
 func LoginHandler(c *gin.Context) {
-	x.SetContext(c)
-
 	type Login struct {
 		Email    string `json:"email" binding:"required"`
 		Password string `json:"password" binding:"required"`
@@ -79,8 +75,6 @@ func LoginHandler(c *gin.Context) {
 
 // MeHandler check authentication
 func MeHandler(c *gin.Context) {
-	x.SetContext(c)
-
 	switch c.Request.Method {
 	case x.GET:
 		auth, err := x.GetAuth()
@@ -92,7 +86,7 @@ func MeHandler(c *gin.Context) {
 
 		user, err := service.Get(auth.ID)
 		if err != nil {
-			x.Error("INVALID_USER", err.Error())
+			x.Error("INVALID_USER", "no user found with this token")
 
 			return
 		}

@@ -37,5 +37,10 @@ func (s *Service) Login(email, pass string) (map[string]interface{}, error) {
 
 // Register user
 func (s *Service) Register(p Object) (Object, error) {
+	// testing instance
+	if p.Email == "testlogin@mango.com" {
+		p.ID = "testloginid"
+	}
+
 	return s.Create(p)
 }

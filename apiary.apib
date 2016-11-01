@@ -42,7 +42,7 @@ Authentication instructions
     + Attributes
         + name: james vincent (string, required)
         + type: admin (string, required)
-        + email: test@mango.com (string, required)
+        + email: testlogin@mango.com (string, required)
         + password: admin (string, required)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (User)
@@ -52,7 +52,7 @@ Authentication instructions
 ### Login [POST]
 + Request (application/json; charset=utf-8)
     + Attributes
-        + email: test@mango.com (string, required)
+        + email: testlogin@mango.com (string, required)
         + password: admin (string, required)
 + Response 200 (application/json; charset=utf-8)
     + Attributes
@@ -66,11 +66,9 @@ Authentication instructions
 + Request
     + Headers
 
-            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZiMDhkMTJkLWM3MzEtNDdiMy04ZTVkLWI5ZWFiMzU3MWRhNiIsInR5cGUiOiJhZG1pbiJ9.GIFFeL8qaKZ1y09TRckhdsabgmGL512HVlybdjZMVyY
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3Rsb2dpbmlkIiwidHlwZSI6ImFkbWluIn0.lK3wXjmLPjt9TgB6n-TxRmTGC5RII1P5OeHfRehzW2k
 + Response 200 (application/json; charset=utf-8)
-    + Attributes
-        + id: testid (string, required)
-        + type: admin (string, required)
+    + Attributes (User)
 
 
 # Group Test

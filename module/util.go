@@ -56,19 +56,26 @@ func Router() *gin.Engine {
 	// Global middleware
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
-	r.Use(func(c *gin.Context) {
-		c.Writer.Header().Set("X-Before", "Foo")
-		c.Next()
-	})
+	r.Use(middleware())
 
 	return r
 }
 
 func middleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Writer.Header().Set("X-Before", "Foo")
+		SetContext(c)
+
+		log.Println(c.Request.URL.Path)
+
+		// required authentication
+		// _, err := GetAuth()
+		// if err != nil {
+		// 	Error("AUTH_ERROR", err.Error())
+		//
+		// 	return
+		// }
+
 		c.Next()
-		c.Writer.Header().Set("X-After", "Bar")
 	}
 }
 
