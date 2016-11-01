@@ -12,14 +12,6 @@ var service Service
 
 // Handler file
 func Handler(c *gin.Context) {
-	// check authentication
-	// _, err := x.GetAuth()
-	// if err != nil {
-	// 	x.Error("AUTH_ERROR", err.Error())
-	//
-	// 	return
-	// }
-
 	id := c.Param("id")
 	switch c.Request.Method {
 	case x.GET:
