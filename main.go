@@ -14,14 +14,13 @@ func main() {
 	r.Any("/register", user.RegisterHandler)
 	r.Any("/login", user.LoginHandler)
 
-	// Authorization group
+	// private group
 	auth := r.Group("/", module.AuthRequired())
 	{
-		auth.Any("/me", user.MeHandler)
-
 		auth.Any("/test", test.Handler)
 		auth.Any("/test/:id", test.Handler)
 
+		auth.Any("/me", user.MeHandler)
 		auth.Any("/user", user.Handler)
 		auth.Any("/user/:id", user.Handler)
 

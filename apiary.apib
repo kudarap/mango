@@ -36,8 +36,7 @@ modular architecture powered by RethinkDb and GoLang
 Authentication instructions
 
 ## Register [/register]
-
-### Login [POST]
+### Register [POST]
 + Request (application/json; charset=utf-8)
     + Attributes
         + name: james vincent (string, required)
@@ -47,8 +46,7 @@ Authentication instructions
 + Response 200 (application/json; charset=utf-8)
     + Attributes (User)
 
-## Auth [/login]
-
+## Login [/login]
 ### Login [POST]
 + Request (application/json; charset=utf-8)
     + Attributes
@@ -61,121 +59,149 @@ Authentication instructions
         + token: somejwttoken (string, required)
 
 ## Me [/me]
-
-### Detail [GET]
-+ Request
++ Model
     + Headers
 
             Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3Rsb2dpbmlkIiwidHlwZSI6ImFkbWluIn0.lK3wXjmLPjt9TgB6n-TxRmTGC5RII1P5OeHfRehzW2k
+### Me [GET]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Response 200 (application/json; charset=utf-8)
     + Attributes (User)
+
 
 
 # Group Test
 Test endpoint for quick start
 
 ## Test [/test]
+### Create [POST]
++ Request (application/json; charset=utf-8)
+    + Headers
 
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3Rsb2dpbmlkIiwidHlwZSI6ImFkbWluIn0.lK3wXjmLPjt9TgB6n-TxRmTGC5RII1P5OeHfRehzW2k
+    + Attributes (Test)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (Test)
 ### List [GET]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Response 200 (application/json; charset=utf-8)
     + Attributes (array[Test])
 
-### Create [POST]
-+ Request (application/json; charset=utf-8)
-    + Attributes (Test)
-+ Response 200 (application/json; charset=utf-8)
-    + Attributes (Test)
-
 ## Test Detail [/test/{id}]
 ### Detail [GET]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Parameters
     + id: `testid` (string, required)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (Test)
-
 ### Update [PATCH]
 + Parameters
     + id: `testid` (string, required)
 + Request (application/json; charset=utf-8)
+    + Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3Rsb2dpbmlkIiwidHlwZSI6ImFkbWluIn0.lK3wXjmLPjt9TgB6n-TxRmTGC5RII1P5OeHfRehzW2k
     + Attributes (Test)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (Test)
-
 ### Remove [DELETE]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Parameters
     + id: `testid` (string, required)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (Test)
+
 
 
 # Group User
-Group description (also with *Markdown*)
+User endpoint for quick start
 
 ## User [/user]
+### Create [POST]
++ Request (application/json; charset=utf-8)
+    + Headers
 
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3Rsb2dpbmlkIiwidHlwZSI6ImFkbWluIn0.lK3wXjmLPjt9TgB6n-TxRmTGC5RII1P5OeHfRehzW2k
+    + Attributes (User)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (User)
 ### List [GET]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Response 200 (application/json; charset=utf-8)
     + Attributes (array[User])
 
-### Create [POST]
-+ Request (application/json; charset=utf-8)
-    + Attributes (User)
-+ Response 200 (application/json; charset=utf-8)
-    + Attributes (User)
-
 ## User Detail [/user/{id}]
 ### Detail [GET]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Parameters
     + id: `userid` (string, required)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (User)
-
 ### Update [PATCH]
 + Parameters
     + id: `userid` (string, required)
 + Request (application/json; charset=utf-8)
+    + Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3Rsb2dpbmlkIiwidHlwZSI6ImFkbWluIn0.lK3wXjmLPjt9TgB6n-TxRmTGC5RII1P5OeHfRehzW2k
     + Attributes (User)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (User)
-
 ### Remove [DELETE]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Parameters
     + id: `userid` (string, required)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (User)
+
 
 
 # Group File
-File endpoint manager
+File endpoint for quick start
 
 ## File [/file]
+### Create [POST]
++ Request (application/json; charset=utf-8)
+    + Headers
 
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3Rsb2dpbmlkIiwidHlwZSI6ImFkbWluIn0.lK3wXjmLPjt9TgB6n-TxRmTGC5RII1P5OeHfRehzW2k
+    + Attributes (File)
++ Response 200 (application/json; charset=utf-8)
+    + Attributes (File)
 ### List [GET]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Response 200 (application/json; charset=utf-8)
     + Attributes (array[File])
 
-### Create [POST]
-+ Request (application/json; charset=utf-8)
-    + Attributes (File)
-+ Response 200 (application/json; charset=utf-8)
-    + Attributes (File)
-
 ## File Detail [/file/{id}]
 ### Detail [GET]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Parameters
     + id: `fileid` (string, required)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (File)
-
 ### Update [PATCH]
 + Parameters
     + id: `fileid` (string, required)
 + Request (application/json; charset=utf-8)
+    + Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3Rsb2dpbmlkIiwidHlwZSI6ImFkbWluIn0.lK3wXjmLPjt9TgB6n-TxRmTGC5RII1P5OeHfRehzW2k
     + Attributes (File)
 + Response 200 (application/json; charset=utf-8)
     + Attributes (File)
-
 ### Remove [DELETE]
++ Request (application/json; charset=utf-8)
+    [Me][]
 + Parameters
     + id: `fileid` (string, required)
 + Response 200 (application/json; charset=utf-8)
