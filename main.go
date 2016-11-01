@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/fvbock/endless"
 	"github.com/javinc/mango/module"
 	"github.com/javinc/mango/test"
 	"github.com/javinc/mango/user"
@@ -20,6 +19,8 @@ func main() {
 	r.Any("/user", user.Handler)
 	r.Any("/user/:id", user.Handler)
 
+	r.Run(module.Config.Host)
+
 	// graceful shutdown
-	endless.ListenAndServe(module.Config.Host, r)
+	// endless.ListenAndServe(module.Config.Host, r)
 }

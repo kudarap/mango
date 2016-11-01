@@ -7,12 +7,6 @@ import (
 	x "github.com/javinc/mango/module"
 )
 
-// Login test
-type Login struct {
-	Email string `json:"email" binding:"required"`
-	Pass  string `json:"pass" binding:"required"`
-}
-
 var service Service
 
 // Handler test
@@ -125,11 +119,36 @@ func Handler(c *gin.Context) {
 func LoginHandler(c *gin.Context) {
 	x.SetContext(c)
 
+	type Login struct {
+		Email string `json:"email" binding:"required"`
+		Pass  string `json:"pass" binding:"required"`
+	}
+
 	switch c.Request.Method {
 	case x.POST:
-		x.Output(gin.H{
-			"hello": "real world",
-		})
+		var payload Login
+
+		err := c.BindJSON(&payload)
+		if err != nil {
+			x.Panic("BIND_ERROR", err.Error())
+
+			return
+		}
+
+		auth, err := service.Login(payload.Email, payload.Pass)
+		if err != nil {
+			x.Error("LOGIN_ERROR", err.Error())
+
+			return
+		}
+
+		if err == nil {
+			x.Output(auth)
+
+			return
+		}
+
+		x.Error("NO_AUTH", "unauthorize user")
 
 		return
 	}

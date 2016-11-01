@@ -1,10 +1,13 @@
 package module
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -52,13 +55,33 @@ func Router() *gin.Engine {
 	// Global middleware
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("X-Before", "Foo")
+		c.Next()
+	})
 
 	return r
+}
+
+func middleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("X-Before", "Foo")
+		c.Next()
+		c.Writer.Header().Set("X-After", "Bar")
+	}
 }
 
 // SetContext format
 func SetContext(c *gin.Context) {
 	ctx = c
+}
+
+// MethodNotAllowed restricted method
+func MethodNotAllowed() {
+	checkContext()
+
+	Error("METHOD_NOT_ALLOWED",
+		ctx.Request.Method+" method not allowed in this endpoint")
 }
 
 // Error format
@@ -72,18 +95,11 @@ func Error(name string, msg string) {
 	})
 }
 
-// MethodNotAllowed restricted method
-func MethodNotAllowed() {
-	checkContext()
-
-	Error("METHOD_NOT_ALLOWED",
-		ctx.Request.Method+" method not allowed in this endpoint")
-}
-
 // Panic format
 func Panic(name string, msg string) {
 	checkContext()
 
+	ctx.Header("content-type", "application/json")
 	ctx.JSON(http.StatusInternalServerError, gin.H{
 		"panic": true,
 		"name":  name,
@@ -96,6 +112,19 @@ func Output(data interface{}) {
 	checkContext()
 
 	ctx.JSON(http.StatusOK, data)
+}
+
+// Hash using MD5
+func Hash(text string) string {
+	hasher := md5.New()
+	hasher.Write([]byte(text))
+
+	return hex.EncodeToString(hasher.Sum(nil))
+}
+
+// GenerateHash using Hash
+func GenerateHash() string {
+	return Hash(time.Now().String())
 }
 
 func checkContext() {

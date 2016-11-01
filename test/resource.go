@@ -36,10 +36,45 @@ func init() {
 	r.TableCreate(resourceName).Run(module.RSession)
 }
 
-// Find test
+// Find resource
 func (t *Resource) Find(o Option) ([]Object, error) {
 	data := []Object{}
 
+	q := baseFind(o)
+
+	res, err := q.Run(module.RSession)
+	if err != nil {
+		return data, err
+	}
+
+	err = res.All(&data)
+	if err != nil {
+		return data, err
+	}
+
+	return data, err
+}
+
+// FindOne single resource
+func (t *Resource) FindOne(o Option) (Object, error) {
+	data := Object{}
+
+	q := baseFind(o)
+
+	res, err := q.Run(module.RSession)
+	if err != nil {
+		return data, err
+	}
+
+	err = res.One(&data)
+	if err != nil {
+		return data, err
+	}
+
+	return data, err
+}
+
+func baseFind(o Option) r.Term {
 	q := r.Table(resourceName)
 
 	// slicing
@@ -63,17 +98,7 @@ func (t *Resource) Find(o Option) ([]Object, error) {
 	// filtering
 	q = q.Filter(o.Filter)
 
-	res, err := q.Run(module.RSession)
-	if err != nil {
-		return data, err
-	}
-
-	err = res.All(&data)
-	if err != nil {
-		return data, err
-	}
-
-	return data, err
+	return q
 }
 
 // Get test

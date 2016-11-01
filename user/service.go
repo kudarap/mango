@@ -1,7 +1,16 @@
 package user
 
-// Service test
+import x "github.com/javinc/mango/module"
+
+// Service object
 type Service struct {
+}
+
+// EmailAuth email authentication
+type EmailAuth struct {
+	ID    string `json:"id"`
+	Type  string `json:"type"`
+	Token string `json:"token"`
 }
 
 var resource Resource
@@ -29,4 +38,36 @@ func (t *Service) Update(p Object, id string) (Object, error) {
 // Remove test
 func (t *Service) Remove(id string) (Object, error) {
 	return resource.Remove(id)
+}
+
+// Login user
+func (t *Service) Login(email, pass string) (EmailAuth, error) {
+	o := Option{
+		Filter: Object{
+			Email: email,
+		},
+	}
+
+	user, err := resource.FindOne(o)
+	if err != nil {
+		return EmailAuth{}, err
+	}
+
+	auth := EmailAuth{
+		ID:   user.ID,
+		Type: user.Name,
+	}
+
+	token, err := x.CreateToken(map[string]interface{}{
+		"id":   user.ID,
+		"type": "admin",
+	})
+
+	if err != nil {
+		return EmailAuth{}, err
+	}
+
+	auth.Token = token
+
+	return auth, nil
 }

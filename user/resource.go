@@ -11,20 +11,21 @@ import (
 
 const resourceName = "user"
 
-// Resource test
+// Resource resource
 type Resource struct {
 }
 
-// Object test
+// Object resource
 type Object struct {
 	ID        string    `gorethink:"id,omitempty" json:"id,omitempty"`
 	Name      string    `gorethink:"name,omitempty" json:"name,omitempty"`
 	Email     string    `gorethink:"email,omitempty" json:"email,omitempty"`
+	Password  string    `gorethink:"password,omitempty" json:"password,omitempty"`
 	CreatedAt time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
 	UpdatedAt time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
 
-// Option test
+// Option resource
 type Option struct {
 	Filter Object
 	Slice  string
@@ -36,10 +37,45 @@ func init() {
 	r.TableCreate(resourceName).Run(module.RSession)
 }
 
-// Find test
+// Find resource
 func (t *Resource) Find(o Option) ([]Object, error) {
 	data := []Object{}
 
+	q := baseFind(o)
+
+	res, err := q.Run(module.RSession)
+	if err != nil {
+		return data, err
+	}
+
+	err = res.All(&data)
+	if err != nil {
+		return data, err
+	}
+
+	return data, err
+}
+
+// FindOne single resource
+func (t *Resource) FindOne(o Option) (Object, error) {
+	data := Object{}
+
+	q := baseFind(o)
+
+	res, err := q.Run(module.RSession)
+	if err != nil {
+		return data, err
+	}
+
+	err = res.One(&data)
+	if err != nil {
+		return data, err
+	}
+
+	return data, err
+}
+
+func baseFind(o Option) r.Term {
 	q := r.Table(resourceName)
 
 	// slicing
@@ -63,20 +99,10 @@ func (t *Resource) Find(o Option) ([]Object, error) {
 	// filtering
 	q = q.Filter(o.Filter)
 
-	res, err := q.Run(module.RSession)
-	if err != nil {
-		return data, err
-	}
-
-	err = res.All(&data)
-	if err != nil {
-		return data, err
-	}
-
-	return data, err
+	return q
 }
 
-// Get test
+// Get resource
 func (t *Resource) Get(id string) (Object, error) {
 	data := Object{}
 
@@ -93,7 +119,7 @@ func (t *Resource) Get(id string) (Object, error) {
 	return data, err
 }
 
-// Create test
+// Create resource
 func (t *Resource) Create(p Object) (Object, error) {
 	// meta data
 	p.CreatedAt = time.Now()
@@ -108,7 +134,7 @@ func (t *Resource) Create(p Object) (Object, error) {
 	return p, err
 }
 
-// Update test
+// Update resource
 func (t *Resource) Update(p Object, id string) (Object, error) {
 	// check item if exists
 	_, err := t.Get(id)
@@ -128,7 +154,7 @@ func (t *Resource) Update(p Object, id string) (Object, error) {
 	return p, err
 }
 
-// Remove test
+// Remove resource
 func (t *Resource) Remove(id string) (Object, error) {
 	// check item if exists
 	p, err := t.Get(id)
