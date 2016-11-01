@@ -112,7 +112,7 @@ func Handler(c *gin.Context) {
 		return
 	}
 
-	x.MethodNotAllowed()
+	x.MethodNotAllowedError()
 }
 
 // LoginHandler user login
@@ -153,7 +153,7 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	x.MethodNotAllowed()
+	x.MethodNotAllowedError()
 }
 
 // MeHandler check authentication
@@ -164,7 +164,7 @@ func MeHandler(c *gin.Context) {
 	case x.GET:
 		auth, err := x.GetAuth()
 		if err != nil {
-			x.Error("INVALID_TOKEN", "unauthorize token")
+			x.Error("AUTH_ERROR", err.Error())
 
 			return
 		}
@@ -174,5 +174,5 @@ func MeHandler(c *gin.Context) {
 		return
 	}
 
-	x.MethodNotAllowed()
+	x.MethodNotAllowedError()
 }

@@ -76,8 +76,8 @@ func SetContext(c *gin.Context) {
 	ctx = c
 }
 
-// MethodNotAllowed restricted method
-func MethodNotAllowed() {
+// MethodNotAllowedError restricted method
+func MethodNotAllowedError() {
 	checkContext()
 
 	Error("METHOD_NOT_ALLOWED",

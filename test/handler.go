@@ -13,6 +13,13 @@ var service Service
 func Handler(c *gin.Context) {
 	x.SetContext(c)
 
+	_, err := x.GetAuth()
+	if err != nil {
+		x.Error("AUTH_ERROR", err.Error())
+
+		return
+	}
+
 	id := c.Param("id")
 
 	switch c.Request.Method {
@@ -112,5 +119,5 @@ func Handler(c *gin.Context) {
 		return
 	}
 
-	x.MethodNotAllowed()
+	x.MethodNotAllowedError()
 }

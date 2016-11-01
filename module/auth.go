@@ -1,6 +1,7 @@
 package module
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -32,11 +33,19 @@ func CreateToken(payload AuthUser) (string, error) {
 
 // GetAuth checking authentication with header
 func GetAuth() (AuthUser, error) {
-	authHeaders := strings.Split(strings.TrimSpace(ctx.Request.Header.Get("authorization")), " ")
-	claims, err := checkToken(authHeaders[1])
+	header := strings.TrimSpace(ctx.Request.Header.Get("authorization"))
+	if header == "" {
+		return AuthUser{}, errors.New("authorization required")
+	}
 
+	authHeaders := strings.Split(header, " ")
+	if len(authHeaders) != 2 {
+		return AuthUser{}, errors.New("invalid authorization header")
+	}
+
+	claims, err := checkToken(authHeaders[1])
 	if err != nil {
-		return AuthUser{}, err
+		return AuthUser{}, errors.New("invalid authorization token")
 	}
 
 	return AuthUser{
