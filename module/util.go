@@ -64,16 +64,23 @@ func Router() *gin.Engine {
 func middleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		SetContext(c)
+		c.Next()
+	}
+}
 
-		log.Println(c.Request.URL.Path)
+// AuthRequired auth requirment
+func AuthRequired() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		log.Println("AuthRequired")
 
 		// required authentication
-		// _, err := GetAuth()
-		// if err != nil {
-		// 	Error("AUTH_ERROR", err.Error())
-		//
-		// 	return
-		// }
+		_, err := GetAuth()
+		if err != nil {
+			Error("AUTH_ERROR", err.Error())
+
+			return
+		}
 
 		c.Next()
 	}

@@ -11,18 +11,26 @@ func main() {
 	r := module.Router()
 
 	// public endpoint
-	r.Any("/register", user.RegisterHandler)
-	r.Any("/login", user.LoginHandler)
-	r.Any("/me", user.MeHandler)
+	r.POST("/register", user.RegisterHandler)
+	r.POST("/login", user.LoginHandler)
+	r.GET("/me", user.MeHandler)
 
-	r.Any("/test", test.Handler)
-	r.Any("/test/:id", test.Handler)
+	// Authorization group
+	// authorized := r.Group("/", AuthRequired())
+	// exactly the same as:
+	// per group middleware! in this case we use the custom created
+	// AuthRequired() middleware just in the "authorized" group.
+	r.Group("/", module.AuthRequired())
+	{
+		r.Any("/test", test.Handler)
+		r.Any("/test/:id", test.Handler)
 
-	r.Any("/user", user.Handler)
-	r.Any("/user/:id", user.Handler)
+		r.Any("/user", user.Handler)
+		r.Any("/user/:id", user.Handler)
 
-	r.Any("/file", file.Handler)
-	r.Any("/file/:id", file.Handler)
+		r.Any("/file", file.Handler)
+		r.Any("/file/:id", file.Handler)
+	}
 
 	r.Run(module.Config.Host)
 

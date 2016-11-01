@@ -10,6 +10,8 @@ import (
 
 const appKey = "blinkdagger"
 
+var authUser AuthUser
+
 // AuthUser authenticated user data
 type AuthUser struct {
 	ID   string `json:"id"`
@@ -48,10 +50,22 @@ func GetAuth() (AuthUser, error) {
 		return AuthUser{}, errors.New("invalid authorization token")
 	}
 
-	return AuthUser{
+	authUser = AuthUser{
 		ID:   claims["id"].(string),
 		Type: claims["type"].(string),
-	}, err
+	}
+
+	return authUser, err
+}
+
+// GetAuthUser authenticated user
+func GetAuthUser() (AuthUser, error) {
+	var err error
+	if authUser.ID == "" {
+		err = errors.New("no authenticated user found")
+	}
+
+	return authUser, err
 }
 
 func checkToken(ts string) (jwt.MapClaims, error) {
