@@ -162,9 +162,14 @@ func MeHandler(c *gin.Context) {
 
 	switch c.Request.Method {
 	case x.GET:
-		x.Output(gin.H{
-			"me": "hahahha",
-		})
+		auth, err := x.GetAuth()
+		if err != nil {
+			x.Error("INVALID_TOKEN", "unauthorize token")
+
+			return
+		}
+
+		x.Output(auth)
 
 		return
 	}

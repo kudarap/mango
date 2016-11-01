@@ -2,18 +2,24 @@ package module
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
 const appKey = "blinkdagger"
 
-// CreateToken generates JWT
-func CreateToken(payload map[string]interface{}) (string, error) {
-	claims := jwt.MapClaims{}
+// AuthUser authenticated user data
+type AuthUser struct {
+	ID   string `json:"id"`
+	Type string `json:"type"`
+}
 
-	for k, v := range payload {
-		claims[k] = v
+// CreateToken generates JWT
+func CreateToken(payload AuthUser) (string, error) {
+	claims := jwt.MapClaims{
+		"id":   payload.ID,
+		"type": payload.Type,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -24,18 +30,31 @@ func CreateToken(payload map[string]interface{}) (string, error) {
 	return ts, err
 }
 
-func check(ts string) {
+// GetAuth checking authentication with header
+func GetAuth() (AuthUser, error) {
+	authHeaders := strings.Split(strings.TrimSpace(ctx.Request.Header.Get("authorization")), " ")
+	claims, err := checkToken(authHeaders[1])
+
+	if err != nil {
+		return AuthUser{}, err
+	}
+
+	return AuthUser{
+		ID:   claims["id"].(string),
+		Type: claims["type"].(string),
+	}, err
+}
+
+func checkToken(ts string) (jwt.MapClaims, error) {
 	token, err := jwt.Parse(ts, func(token *jwt.Token) (interface{}, error) {
 		return []byte(appKey), nil
 	})
 
-	claims, ok := token.Claims.(jwt.MapClaims)
+	if err != nil {
+		return jwt.MapClaims{}, err
+	}
 
-	fmt.Println(claims)
-	fmt.Println(ok)
-	fmt.Println(err)
-}
+	claims, _ := token.Claims.(jwt.MapClaims)
 
-func blink() {
-
+	return claims, err
 }

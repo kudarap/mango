@@ -10,13 +10,6 @@ import (
 type Service struct {
 }
 
-// EmailAuth email authentication
-type EmailAuth struct {
-	ID    string `json:"id"`
-	Type  string `json:"type"`
-	Token string `json:"token"`
-}
-
 var resource Resource
 
 // Find test
@@ -45,7 +38,7 @@ func (t *Service) Remove(id string) (Object, error) {
 }
 
 // Login user
-func (t *Service) Login(email, pass string) (EmailAuth, error) {
+func (t *Service) Login(email, pass string) (map[string]interface{}, error) {
 	o := Option{
 		Filter: Object{
 			Email:    email,
@@ -53,26 +46,23 @@ func (t *Service) Login(email, pass string) (EmailAuth, error) {
 		},
 	}
 
+	payload := make(map[string]interface{})
+
 	user, err := resource.FindOne(o)
 	if err != nil {
-		return EmailAuth{}, errors.New("invalid email or password")
+		return payload, errors.New("invalid email or password")
 	}
 
-	auth := EmailAuth{
+	// payload population
+	payload["id"] = user.ID
+	payload["type"] = "admin"
+
+	token, err := x.CreateToken(x.AuthUser{
 		ID:   user.ID,
-		Type: "admin",
-	}
-
-	token, err := x.CreateToken(map[string]interface{}{
-		"id":   auth.ID,
-		"type": auth.Type,
+		Type: payload["type"].(string),
 	})
 
-	if err != nil {
-		return EmailAuth{}, err
-	}
+	payload["token"] = token
 
-	auth.Token = token
-
-	return auth, nil
+	return payload, err
 }
