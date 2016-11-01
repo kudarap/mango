@@ -14,6 +14,9 @@ func main() {
 	r.POST("/register", user.RegisterHandler)
 	r.POST("/login", user.LoginHandler)
 
+	// read only
+	r.Static("/upload", "./upload")
+
 	// private group
 	auth := r.Group("/", module.AuthRequired())
 	{

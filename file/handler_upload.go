@@ -1,8 +1,12 @@
 package file
 
 import (
+	"errors"
+	"fmt"
 	"io"
+	"mime/multipart"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -44,14 +48,45 @@ func UploadHandler(c *gin.Context) {
 		return
 	}
 
+	size, err := getFileSize(file)
+	if err != nil {
+		x.Error("FILE_UPLOAD_SIZE_ERROR", err.Error())
+
+		return
+	}
+
 	x.Output(gin.H{
 		"slug": name,
 		"ext":  ext,
+		"size": size,
 		"mime": header.Header.Get("Content-Type"),
 	})
 }
 
+func getFileSize(file multipart.File) (int64, error) {
+	type size interface {
+		Size() int64
+	}
+
+	var fsize string
+	var i64 int64
+
+	if sizeInterface, ok := file.(size); ok {
+		sizeInterface.Size()
+
+		fsize = fmt.Sprintf("%d", sizeInterface.Size())
+	} else {
+		return i64, errors.New("cant get file size")
+	}
+
+	s, err := strconv.Atoi(fsize)
+	if err != nil {
+		return i64, err
+	}
+
+	return int64(s), nil
+}
+
 // DisposeHandler file disposition
 func DisposeHandler(c *gin.Context) {
-
 }
