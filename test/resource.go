@@ -120,6 +120,9 @@ func (t *Resource) Get(id string) (Object, error) {
 
 // Create test
 func (t *Resource) Create(p Object) (Object, error) {
+	// set uuid
+	p.ID = module.GenerateHash()
+
 	// meta data
 	p.CreatedAt = time.Now()
 	p.UpdatedAt = time.Now()

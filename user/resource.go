@@ -19,7 +19,7 @@ type Resource struct {
 type Object struct {
 	ID        string    `gorethink:"id,omitempty" json:"id,omitempty"`
 	Name      string    `gorethink:"name,omitempty" json:"name,omitempty" binding:"required"`
-	Type      string    `gorethink:"type,omitempty" json:"type,omitempty"`
+	Type      string    `gorethink:"type,omitempty" json:"type,omitempty" binding:"required"`
 	Email     string    `gorethink:"email,omitempty" json:"email,omitempty" binding:"required"`
 	Password  string    `gorethink:"password,omitempty" json:"password,omitempty" binding:"required"`
 	CreatedAt time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
@@ -122,6 +122,9 @@ func (t *Resource) Get(id string) (Object, error) {
 
 // Create resource
 func (t *Resource) Create(p Object) (Object, error) {
+	// set uuid
+	p.ID = module.GenerateHash()
+
 	// meta data
 	p.CreatedAt = time.Now()
 	p.UpdatedAt = time.Now()
