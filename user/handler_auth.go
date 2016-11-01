@@ -7,31 +7,24 @@ import (
 
 // RegisterHandler user register
 func RegisterHandler(c *gin.Context) {
-	switch c.Request.Method {
-	case x.POST:
-		var payload Object
+	var payload Object
 
-		err := c.BindJSON(&payload)
-		if err != nil {
-			x.Panic("JSON_BIND_ERROR", err.Error())
-
-			return
-		}
-
-		user, err := service.Register(payload)
-		if err != nil {
-			x.Error("USER_EMAIL_REGISTER_ERROR", err.Error())
-
-			return
-		}
-
-		// success
-		x.Output(user)
+	err := c.BindJSON(&payload)
+	if err != nil {
+		x.Panic("JSON_BIND_ERROR", err.Error())
 
 		return
 	}
 
-	x.MethodNotAllowedError()
+	user, err := service.Register(payload)
+	if err != nil {
+		x.Error("USER_EMAIL_REGISTER_ERROR", err.Error())
+
+		return
+	}
+
+	// success
+	x.Output(user)
 }
 
 // LoginHandler user login
@@ -41,53 +34,41 @@ func LoginHandler(c *gin.Context) {
 		Password string `json:"password" binding:"required"`
 	}
 
-	switch c.Request.Method {
-	case x.POST:
-		var payload Login
+	var payload Login
 
-		err := c.BindJSON(&payload)
-		if err != nil {
-			x.Panic("USER_JSON_BIND_ERROR", err.Error())
-
-			return
-		}
-
-		auth, err := service.Login(payload.Email, payload.Password)
-		if err != nil {
-			x.Error("USER_EMAIL_LOGIN_ERROR", err.Error())
-
-			return
-		}
-
-		if err == nil {
-			x.Output(auth)
-
-			return
-		}
-
-		x.Error("INVALID_AUTH", "unauthorize user")
+	err := c.BindJSON(&payload)
+	if err != nil {
+		x.Panic("USER_JSON_BIND_ERROR", err.Error())
 
 		return
 	}
 
-	x.MethodNotAllowedError()
+	auth, err := service.Login(payload.Email, payload.Password)
+	if err != nil {
+		x.Error("USER_EMAIL_LOGIN_ERROR", err.Error())
+
+		return
+	}
+
+	if err == nil {
+		x.Output(auth)
+
+		return
+	}
+
+	x.Error("INVALID_AUTH", "unauthorize user")
 }
 
 // MeHandler check authentication
 func MeHandler(c *gin.Context) {
-	switch c.Request.Method {
-	case x.GET:
-		user, err := service.Get(x.GetAuthUser().ID)
-		if err != nil {
-			x.Error("INVALID_USER", "no user found with this token")
-
-			return
-		}
-
-		x.Output(user)
+	user, err := service.Get(x.GetAuthUser().ID)
+	if err != nil {
+		x.Error("INVALID_USER", "no user found with this token")
 
 		return
 	}
 
-	x.MethodNotAllowedError()
+	x.Output(user)
+
+	return
 }
