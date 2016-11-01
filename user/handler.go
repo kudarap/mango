@@ -148,7 +148,7 @@ func LoginHandler(c *gin.Context) {
 			return
 		}
 
-		x.Error("NO_AUTH", "unauthorize user")
+		x.Error("INVALID_AUTH", "unauthorize user")
 
 		return
 	}

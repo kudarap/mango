@@ -117,7 +117,7 @@ func Output(data interface{}) {
 // Hash using MD5
 func Hash(text string) string {
 	hasher := md5.New()
-	hasher.Write([]byte(text))
+	hasher.Write([]byte(text + appKey))
 
 	return hex.EncodeToString(hasher.Sum(nil))
 }

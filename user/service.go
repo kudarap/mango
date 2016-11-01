@@ -1,6 +1,10 @@
 package user
 
-import x "github.com/javinc/mango/module"
+import (
+	"errors"
+
+	x "github.com/javinc/mango/module"
+)
 
 // Service object
 type Service struct {
@@ -44,13 +48,14 @@ func (t *Service) Remove(id string) (Object, error) {
 func (t *Service) Login(email, pass string) (EmailAuth, error) {
 	o := Option{
 		Filter: Object{
-			Email: email,
+			Email:    email,
+			Password: x.Hash(pass),
 		},
 	}
 
 	user, err := resource.FindOne(o)
 	if err != nil {
-		return EmailAuth{}, err
+		return EmailAuth{}, errors.New("invalid email or password")
 	}
 
 	auth := EmailAuth{
