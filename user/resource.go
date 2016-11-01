@@ -18,9 +18,10 @@ type Resource struct {
 // Object resource
 type Object struct {
 	ID        string    `gorethink:"id,omitempty" json:"id,omitempty"`
-	Name      string    `gorethink:"name,omitempty" json:"name,omitempty"`
-	Email     string    `gorethink:"email,omitempty" json:"email,omitempty"`
-	Password  string    `gorethink:"password,omitempty" json:"password,omitempty"`
+	Name      string    `gorethink:"name,omitempty" json:"name,omitempty" binding:"required"`
+	Type      string    `gorethink:"type,omitempty" json:"type,omitempty"`
+	Email     string    `gorethink:"email,omitempty" json:"email,omitempty" binding:"required"`
+	Password  string    `gorethink:"password,omitempty" json:"password,omitempty" binding:"required"`
 	CreatedAt time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
 	UpdatedAt time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
 }

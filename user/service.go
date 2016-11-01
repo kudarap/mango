@@ -3,7 +3,7 @@ package user
 import (
 	"errors"
 
-	x "github.com/javinc/mango/module"
+	"github.com/javinc/mango/module"
 )
 
 // Service object
@@ -12,57 +12,46 @@ type Service struct {
 
 var resource Resource
 
-// Find test
-func (t *Service) Find(o Option) ([]Object, error) {
+// Find user
+func (s *Service) Find(o Option) ([]Object, error) {
 	return resource.Find(o)
 }
 
-// Get test
-func (t *Service) Get(id string) (Object, error) {
+// FindOne user
+func (s *Service) FindOne(o Option) (Object, error) {
+	return resource.FindOne(o)
+}
+
+// Get user
+func (s *Service) Get(id string) (Object, error) {
 	return resource.Get(id)
 }
 
-// Create test
-func (t *Service) Create(p Object) (Object, error) {
+// Create user
+func (s *Service) Create(p Object) (Object, error) {
+	// check email existence
+	user, _ := s.FindOne(Option{
+		Filter: Object{
+			Email: p.Email,
+		},
+	})
+
+	if user.ID != "" {
+		return Object{}, errors.New("email already exists")
+	}
+
+	// pasword hashing
+	p.Password = module.Hash(p.Password)
+
 	return resource.Create(p)
 }
 
-// Update test
-func (t *Service) Update(p Object, id string) (Object, error) {
+// Update user
+func (s *Service) Update(p Object, id string) (Object, error) {
 	return resource.Update(p, id)
 }
 
-// Remove test
-func (t *Service) Remove(id string) (Object, error) {
+// Remove user
+func (s *Service) Remove(id string) (Object, error) {
 	return resource.Remove(id)
-}
-
-// Login user
-func (t *Service) Login(email, pass string) (map[string]interface{}, error) {
-	o := Option{
-		Filter: Object{
-			Email:    email,
-			Password: x.Hash(pass),
-		},
-	}
-
-	payload := make(map[string]interface{})
-
-	user, err := resource.FindOne(o)
-	if err != nil {
-		return payload, errors.New("invalid email or password")
-	}
-
-	// payload population
-	payload["id"] = user.ID
-	payload["type"] = "admin"
-
-	token, err := x.CreateToken(x.AuthUser{
-		ID:   user.ID,
-		Type: payload["type"].(string),
-	})
-
-	payload["token"] = token
-
-	return payload, err
 }

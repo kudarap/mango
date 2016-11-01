@@ -11,6 +11,7 @@ func main() {
 	r := module.Router()
 
 	// public endpoint
+	r.Any("/register", user.RegisterHandler)
 	r.Any("/login", user.LoginHandler)
 	r.Any("/me", user.MeHandler)
 

@@ -22,6 +22,7 @@ func Handler(c *gin.Context) {
 			filter := Object{
 				Name:  c.Query("filter.name"),
 				Email: c.Query("filter.email"),
+				Type:  c.Query("filter.type"),
 			}
 
 			option := Option{
@@ -108,68 +109,6 @@ func Handler(c *gin.Context) {
 		}
 
 		x.Output(d)
-
-		return
-	}
-
-	x.MethodNotAllowedError()
-}
-
-// LoginHandler user login
-func LoginHandler(c *gin.Context) {
-	x.SetContext(c)
-
-	type Login struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
-	}
-
-	switch c.Request.Method {
-	case x.POST:
-		var payload Login
-
-		err := c.BindJSON(&payload)
-		if err != nil {
-			x.Panic("JSON_BIND_ERROR", err.Error())
-
-			return
-		}
-
-		auth, err := service.Login(payload.Email, payload.Password)
-		if err != nil {
-			x.Error("EMAIL_LOGIN_ERROR", err.Error())
-
-			return
-		}
-
-		if err == nil {
-			x.Output(auth)
-
-			return
-		}
-
-		x.Error("INVALID_AUTH", "unauthorize user")
-
-		return
-	}
-
-	x.MethodNotAllowedError()
-}
-
-// MeHandler check authentication
-func MeHandler(c *gin.Context) {
-	x.SetContext(c)
-
-	switch c.Request.Method {
-	case x.GET:
-		auth, err := x.GetAuth()
-		if err != nil {
-			x.Error("AUTH_ERROR", err.Error())
-
-			return
-		}
-
-		x.Output(auth)
 
 		return
 	}
