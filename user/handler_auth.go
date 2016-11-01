@@ -90,7 +90,14 @@ func MeHandler(c *gin.Context) {
 			return
 		}
 
-		x.Output(auth)
+		user, err := service.Get(auth.ID)
+		if err != nil {
+			x.Error("INVALID_USER", err.Error())
+
+			return
+		}
+
+		x.Output(user)
 
 		return
 	}
