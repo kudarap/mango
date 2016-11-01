@@ -59,13 +59,13 @@ func GetAuth() (AuthUser, error) {
 }
 
 // GetAuthUser authenticated user
-func GetAuthUser() (AuthUser, error) {
-	var err error
-	if authUser.ID == "" {
-		err = errors.New("no authenticated user found")
-	}
+func GetAuthUser() AuthUser {
+	// var err error
+	// if authUser.ID == "" {
+	// 	err = errors.New("no authenticated user found")
+	// }
 
-	return authUser, err
+	return authUser
 }
 
 func checkToken(ts string) (jwt.MapClaims, error) {

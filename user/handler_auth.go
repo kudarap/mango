@@ -20,7 +20,7 @@ func RegisterHandler(c *gin.Context) {
 
 		user, err := service.Register(payload)
 		if err != nil {
-			x.Error("EMAIL_REGISTER_ERROR", err.Error())
+			x.Error("USER_EMAIL_REGISTER_ERROR", err.Error())
 
 			return
 		}
@@ -47,14 +47,14 @@ func LoginHandler(c *gin.Context) {
 
 		err := c.BindJSON(&payload)
 		if err != nil {
-			x.Panic("JSON_BIND_ERROR", err.Error())
+			x.Panic("USER_JSON_BIND_ERROR", err.Error())
 
 			return
 		}
 
 		auth, err := service.Login(payload.Email, payload.Password)
 		if err != nil {
-			x.Error("EMAIL_LOGIN_ERROR", err.Error())
+			x.Error("USER_EMAIL_LOGIN_ERROR", err.Error())
 
 			return
 		}
@@ -77,14 +77,7 @@ func LoginHandler(c *gin.Context) {
 func MeHandler(c *gin.Context) {
 	switch c.Request.Method {
 	case x.GET:
-		auth, err := x.GetAuth()
-		if err != nil {
-			x.Error("AUTH_ERROR", err.Error())
-
-			return
-		}
-
-		user, err := service.Get(auth.ID)
+		user, err := service.Get(x.GetAuthUser().ID)
 		if err != nil {
 			x.Error("INVALID_USER", "no user found with this token")
 
