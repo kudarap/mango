@@ -17,7 +17,8 @@ var (
 	RSession *r.Session
 )
 
-func init() {
+// Rethink inialiization
+func Rethink() {
 	var err error
 
 	RSession, err = r.Connect(r.ConnectOpts{

@@ -36,20 +36,21 @@ var (
 	Config config
 )
 
+// Init inialize util
 func init() {
-	file, _ := os.Open(configPath)
-	decoder := json.NewDecoder(file)
-	err := decoder.Decode(&Config)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	log.Println("loading config.json")
+	loadConfig()
 
-	log.Println("config.json loaded")
-	log.Println(Config)
+	log.Println("firing up rethink database")
+	Rethink()
+
+	log.Printf("listening and serving HTTP on %v", Config.Host)
 }
 
 // Router gin
 func Router() *gin.Engine {
+	gin.SetMode(gin.ReleaseMode)
+
 	r := gin.New()
 
 	// Global middleware
@@ -130,5 +131,14 @@ func GenerateHash() string {
 func checkContext() {
 	if ctx == nil {
 		log.Fatalln("ctx is undefined, please set it on handler")
+	}
+}
+
+func loadConfig() {
+	file, _ := os.Open(configPath)
+	decoder := json.NewDecoder(file)
+	err := decoder.Decode(&Config)
+	if err != nil {
+		log.Fatalln(err)
 	}
 }
