@@ -19,10 +19,9 @@ func Handler(c *gin.Context) {
 		if id == "" {
 			size, _ := strconv.Atoi(c.Query("filter.size"))
 			filter := Object{
-				Slug:      c.Query("filter.slug"),
-				Extension: c.Query("filter.extension"),
-				Mime:      c.Query("filter.mime"),
-				Size:      size,
+				Slug: c.Query("filter.slug"),
+				Mime: c.Query("filter.mime"),
+				Size: size,
 			}
 
 			option := Option{
