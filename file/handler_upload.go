@@ -29,9 +29,8 @@ func UploadHandler(c *gin.Context) {
 		return
 	}
 
-	id := x.GenerateHash()
 	ext := getExtension(header.Filename)
-	name := id + "." + ext
+	name := x.GenerateHash() + "." + ext
 	filePath := uploadPath + name
 	out, err := os.Create(filePath)
 	if err != nil {
@@ -65,7 +64,7 @@ func UploadHandler(c *gin.Context) {
 
 	// save meta on database
 	payload := Object{
-		ID:   id,
+		ID:   name,
 		Ext:  ext,
 		Size: size,
 		Mime: mime,
