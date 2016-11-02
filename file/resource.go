@@ -18,9 +18,9 @@ type Resource struct {
 // Object file
 type Object struct {
 	ID        string    `gorethink:"id,omitempty" json:"id,omitempty"`
-	Slug      string    `gorethink:"slug,omitempty" json:"slug,omitempty"`
+	Ext       string    `gorethink:"ext,omitempty" json:"ext,omitempty"`
 	Mime      string    `gorethink:"mime,omitempty" json:"mime,omitempty"`
-	Size      int       `gorethink:"size,omitempty" json:"size,omitempty"`
+	Size      int64     `gorethink:"size,omitempty" json:"size,omitempty"`
 	CreatedAt time.Time `gorethink:"created_at,omitempty" json:"created_at,omitempty"`
 	UpdatedAt time.Time `gorethink:"updated_at,omitempty" json:"updated_at,omitempty"`
 }

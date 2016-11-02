@@ -29,7 +29,9 @@ func UploadHandler(c *gin.Context) {
 		return
 	}
 
-	name := x.GenerateHash() + "." + getExtension(header.Filename)
+	id := x.GenerateHash()
+	ext := getExtension(header.Filename)
+	name := id + "." + ext
 	filePath := uploadPath + name
 	out, err := os.Create(filePath)
 	if err != nil {
@@ -53,11 +55,25 @@ func UploadHandler(c *gin.Context) {
 		return
 	}
 
-	x.Output(gin.H{
-		"slug": name,
-		"size": size,
-		"mime": header.Header.Get("Content-Type"),
-	})
+	// check mime type
+	mime := header.Header.Get("Content-Type")
+	if mime == "" {
+		x.Error("FILE_UPLOAD_MIME_ERROR", "cant get file content-type")
+
+		return
+	}
+
+	// save meta on database
+	payload := Object{
+		ID:   id,
+		Ext:  ext,
+		Size: size,
+		Mime: mime,
+	}
+
+	service.Create(payload)
+
+	x.Output(payload)
 }
 
 func getExtension(filename string) string {
