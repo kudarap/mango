@@ -29,9 +29,7 @@ func UploadHandler(c *gin.Context) {
 		return
 	}
 
-	raw := strings.Split(header.Filename, ".")
-	ext := raw[len(raw)-1]
-	name := x.GenerateHash() + "." + ext
+	name := x.GenerateHash() + "." + getExtension(header.Filename)
 	filePath := uploadPath + name
 	out, err := os.Create(filePath)
 	if err != nil {
@@ -57,10 +55,14 @@ func UploadHandler(c *gin.Context) {
 
 	x.Output(gin.H{
 		"slug": name,
-		"ext":  ext,
 		"size": size,
 		"mime": header.Header.Get("Content-Type"),
 	})
+}
+
+func getExtension(filename string) string {
+	raw := strings.Split(filename, ".")
+	return raw[len(raw)-1]
 }
 
 func getFileSize(file multipart.File) (int64, error) {
