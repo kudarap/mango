@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/javinc/mango/component/test/resource"
-	"github.com/javinc/mango/component/test/schema"
+	"github.com/javinc/mango/foo/resource"
+	"github.com/javinc/mango/foo/schema"
 )
 
 // Find test

@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/javinc/mango/component/test/schema"
-	"github.com/javinc/mango/component/test/service"
+	"github.com/javinc/mango/foo/schema"
+	"github.com/javinc/mango/foo/service"
 )
 
 // Handler http

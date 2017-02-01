@@ -1,8 +1,8 @@
 package resource
 
 import (
-	"github.com/javinc/mango/component/test/schema"
 	"github.com/javinc/mango/database"
+	"github.com/javinc/mango/foo/schema"
 
 	db "github.com/gorethink/gorethink"
 )
