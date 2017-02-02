@@ -7,7 +7,7 @@ import (
 	db "github.com/gorethink/gorethink"
 )
 
-const resourceName = "test"
+const resourceName = "foo"
 
 // Db instance
 func Db() db.Term {
