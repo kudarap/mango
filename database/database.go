@@ -4,7 +4,7 @@ import (
 	"errors"
 	"log"
 
-	db "github.com/gorethink/gorethink"
+	"github.com/gorethink/gorethink"
 
 	"github.com/javinc/mango/config"
 )
@@ -16,7 +16,7 @@ type Config struct {
 	MaxOpen int
 }
 
-var s *db.Session
+var s *gorethink.Session
 
 func init() {
 	log.Println("[database]", "starting...")
@@ -32,7 +32,7 @@ func init() {
 }
 
 // GetSession database
-func GetSession() *db.Session {
+func GetSession() *gorethink.Session {
 	return s
 }
 
@@ -44,7 +44,7 @@ func Connect(c Config) {
 		log.Fatalln(err)
 	}
 
-	s, err = db.Connect(db.ConnectOpts{
+	s, err = gorethink.Connect(gorethink.ConnectOpts{
 		Address:  c.Host,
 		Database: c.Db,
 		MaxOpen:  c.MaxOpen,
@@ -54,8 +54,8 @@ func Connect(c Config) {
 	}
 
 	// create if not exists
-	db.DBCreate(c.Db).Run(s)
+	gorethink.DBCreate(c.Db).Run(s)
 
 	// enabling json tag as alternative on component Objects
-	db.SetTags("gorethink", "json")
+	gorethink.SetTags("gorethink", "json")
 }

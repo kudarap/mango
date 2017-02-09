@@ -1,24 +1,34 @@
 package resource
 
 import (
+	"log"
+
+	"github.com/gorethink/gorethink"
+
 	"github.com/javinc/mango/database"
 	"github.com/javinc/mango/foo/schema"
-
-	db "github.com/gorethink/gorethink"
 )
 
 const resourceName = "foo"
 
+var session = database.GetSession()
+
+func init() {
+	log.Println("[foo]", "init")
+
+	gorethink.TableCreate(resourceName).Wait().RunWrite(session)
+}
+
 // Db instance
-func Db() db.Term {
-	return db.Table(resourceName)
+func Db() gorethink.Term {
+	return gorethink.Table(resourceName)
 }
 
 // Find resource
 func Find(o schema.Option) (data []schema.Object, err error) {
 	q := baseFind(o)
 
-	res, err := q.Run(database.Session)
+	res, err := q.Run(session)
 	if err != nil {
 		return
 	}
@@ -36,6 +46,6 @@ func Find(o schema.Option) (data []schema.Object, err error) {
 	return
 }
 
-func baseFind(o schema.Option) db.Term {
+func baseFind(o schema.Option) gorethink.Term {
 	return Db().Filter(map[string]interface{}{})
 }

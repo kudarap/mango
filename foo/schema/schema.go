@@ -2,7 +2,7 @@ package schema
 
 import "time"
 
-// Object test
+// Object foo
 type Object struct {
 	ID          string `json:"id,omitempty" field:"string"`
 	UserID      string `json:"user_id,omitempty" field:"string"`
@@ -17,7 +17,7 @@ type Object struct {
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 }
 
-// Option test
+// Option foo
 type Option struct {
 	Slice   string
 	Order   string
