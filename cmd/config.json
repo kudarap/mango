@@ -1,0 +1,17 @@
+{
+  "live": false,
+  "host": "http://api.ratatxt.dev",
+  "port": ":8000",
+  "rethink": {
+    "host": "localhost:28015",
+    "db": "mango",
+    "max_open": 100
+  },
+  "upload_path": "./upload",
+  "mail": {
+    "host": "smtp.live.com",
+    "port": 587,
+    "user": "dev@chiligarlic.com",
+    "pass": "^Sawsawan$~"
+  }
+}
