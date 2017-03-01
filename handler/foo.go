@@ -7,18 +7,19 @@ import (
 
 	"github.com/javinc/mango/model"
 	"github.com/javinc/mango/service"
+	"github.com/javinc/mango/service/logic"
 	"github.com/javinc/mango/store"
 )
 
 // FooHandler http call
 func FooHandler(c *gin.Context) {
 	// mocking user detail on request
-	service.ToContext(c, service.New(model.User{
+	service.ToContext(c, logic.New(model.User{
 		ID:   "testid",
 		Type: "client",
 	}))
 
-	s, _ := service.GetFoo("testid")
+	s, _ := service.GetFoo(c, "testid")
 
 	c.String(http.StatusOK, "%s", s)
 }

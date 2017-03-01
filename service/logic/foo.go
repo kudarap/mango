@@ -1,6 +1,12 @@
 package logic
 
+import "log"
+
+func init() {
+	log.Println("[foo-service]", "init")
+}
+
 // GetFoo test
-func GetFoo(id string) (string, error) {
+func (db *logic) GetFoo(id string) (string, error) {
 	return "service foo", nil
 }

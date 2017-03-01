@@ -3,7 +3,7 @@ package resource
 import "log"
 
 func init() {
-	log.Println("[foo]", "init")
+	log.Println("[foo-store]", "init")
 }
 
 // GetFoo get foo
