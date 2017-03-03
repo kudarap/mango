@@ -8,7 +8,6 @@ import (
 	"github.com/javinc/mango/model"
 	"github.com/javinc/mango/service"
 	"github.com/javinc/mango/service/logic"
-	"github.com/javinc/mango/store"
 )
 
 // FooHandler http call
@@ -20,13 +19,6 @@ func FooHandler(c *gin.Context) {
 	}))
 
 	s, _ := service.GetFoo(c, "testid")
-
-	c.String(http.StatusOK, "%s", s)
-}
-
-// FooHandlerx http call
-func FooHandlerx(c *gin.Context) {
-	s, _ := store.FromContext(c).GetFoo("testid")
 
 	c.String(http.StatusOK, "%s", s)
 }
