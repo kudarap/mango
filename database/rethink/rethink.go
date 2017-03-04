@@ -1,12 +1,10 @@
-package database
+package rethink
 
 import (
 	"errors"
 	"log"
 
 	"github.com/gorethink/gorethink"
-
-	"github.com/javinc/mango/config"
 )
 
 // Config database
@@ -18,15 +16,9 @@ type Config struct {
 
 var s *gorethink.Session
 
-func init() {
+// Init connection
+func Init() {
 	log.Println("[database]", "starting...")
-
-	c := config.Get()
-	Connect(Config{
-		Host:    c.Rethink.Host,
-		Db:      c.Rethink.Db,
-		MaxOpen: c.Rethink.MaxOpen,
-	})
 
 	log.Println("[database]", "started!")
 }
