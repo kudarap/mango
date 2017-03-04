@@ -1,39 +1,28 @@
 package main
 
 import (
-	"github.com/javinc/mango/file"
-	"github.com/javinc/mango/module"
-	"github.com/javinc/mango/test"
-	"github.com/javinc/mango/user"
+	"log"
+
+	"github.com/gin-gonic/gin"
+
+	"github.com/javinc/mango/config"
+	foo "github.com/javinc/mango/foo/controller"
+	"github.com/javinc/mango/rest"
 )
 
 func main() {
-	r := module.Router()
+	log.Println("[main]", "starting...")
 
-	// public endpoint
-	r.POST("/register", user.RegisterHandler)
-	r.POST("/login", user.LoginHandler)
+	c := config.Get()
+	r := rest.Router()
 
-	// read only
-	r.Static("/upload", "./upload")
+	// routing
+	route(r)
 
-	// private group
-	auth := r.Group("/", module.AuthRequired())
-	{
-		auth.Any("/test", test.Handler)
-		auth.Any("/test/:id", test.Handler)
+	log.Println("[main]", "listening and serving on", c.Port)
+	r.Run(c.Port)
+}
 
-		auth.GET("/me", user.MeHandler)
-		auth.Any("/user", user.Handler)
-		auth.Any("/user/:id", user.Handler)
-
-		auth.Any("/file", file.Handler)
-		auth.Any("/file/:id", file.Handler)
-		auth.POST("/upload", file.UploadHandler)
-	}
-
-	r.Run(module.Config.Host)
-
-	// graceful shutdown
-	// endless.ListenAndServe(module.Config.Host, r)
+func route(r *gin.Engine) {
+	r.Any("/", foo.Handler)
 }
