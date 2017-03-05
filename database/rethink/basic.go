@@ -53,9 +53,17 @@ func Update(term gorethink.Term) error {
 	return nil
 }
 
+// Remove basic query
+func Remove(term gorethink.Term) error {
+	_, err := RunWrite(term)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // CreateTable create table
 func CreateTable(name string) {
-	gorethink.TableCreate("foo").
-		Wait().
-		RunWrite(GetSession())
+	RunWrite(gorethink.TableCreate("foo").Wait())
 }
