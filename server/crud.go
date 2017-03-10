@@ -1,4 +1,4 @@
-package rethink
+package server
 
 import "github.com/gorethink/gorethink"
 
