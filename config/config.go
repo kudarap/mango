@@ -1,55 +1,40 @@
+// provides access to config files magically and fixed the issue of
+// loading config file before init() and wrapper from github.com/spf13/viper
+
 package config
 
 import (
-	"encoding/json"
-	"log"
-	"os"
+	"fmt"
+
+	"github.com/spf13/viper"
 )
 
-// Config model
-type Config struct {
-	Live    bool   `json:"live"`
-	Host    string `json:"host"`
-	Port    string `json:"port"`
-	Rethink struct {
-		Host    string `json:"host"`
-		Db      string `json:"db"`
-		MaxOpen int    `json:"max_open"`
-	}
-	UploadPath string `json:"upload_path"`
-	Mail       struct {
-		Host string `json:"host"`
-		Port int    `json:"port"`
-		User string `json:"user"`
-		Pass string `json:"pass"`
-	}
-}
-
-const configPath = "config.json"
-
-var c Config
+var (
+	// Name of the file default is config
+	Name = "config"
+	// Path of the file default is .
+	Path = "."
+)
 
 func init() {
-	log.Println("[config]", "loading...")
-
-	load()
-
-	log.Println("[config]", "loaded!")
+	viper.SetConfigName(Name)
+	viper.AddConfigPath(Path)
+	if err := viper.ReadInConfig(); err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
 }
 
-// Get configuration
-func Get() Config {
-	return c
+// GetString from config
+func GetString(n string) string {
+	return viper.GetString(n)
 }
 
-func load() {
-	file, err := os.Open(configPath)
-	if err != nil {
-		log.Fatalln("[config]", err)
-	}
+// GetBool from config
+func GetBool(n string) bool {
+	return viper.GetBool(n)
+}
 
-	decoder := json.NewDecoder(file)
-	if err = decoder.Decode(&c); err != nil {
-		log.Fatalln("[config]", err)
-	}
+// GetInt from config
+func GetInt(n string) int {
+	return viper.GetInt(n)
 }
