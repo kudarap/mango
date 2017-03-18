@@ -5,7 +5,7 @@ import "testing"
 func TestInArray(t *testing.T) {
 	assertEqual := func(exp interface{}, val interface{}) {
 		if val != exp {
-			t.Errorf("Expected %v, got %v.", exp, val)
+			t.Errorf("Finding value on array. Expected %v, got %v.", exp, val)
 		}
 	}
 
