@@ -3,19 +3,17 @@ package tool
 import "testing"
 
 func TestInArray(t *testing.T) {
-	i, ok := InArray(1, []int{0, 1, 2, 3})
-	if !ok {
-		t.Errorf("failed to find needle")
-	} else if i != 1 {
-		t.Errorf("failed to to get needle index")
+	assertEqual := func(exp interface{}, val interface{}) {
+		if val != exp {
+			t.Errorf("Expected %v, got %v.", exp, val)
+		}
 	}
-}
 
-func TestNotInArray(t *testing.T) {
-	i, ok := InArray(4, []int{0, 1, 2, 3})
-	if ok {
-		t.Errorf("it should not be found")
-	} else if i != -1 {
-		t.Errorf("it should not have index")
-	}
+	i, ok := InArray(1, []int{0, 1, 2, 3})
+	assertEqual(true, ok)
+	assertEqual(1, i)
+
+	i, ok = InArray(4, []int{0, 1, 2, 3})
+	assertEqual(false, ok)
+	assertEqual(-1, i)
 }
