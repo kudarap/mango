@@ -16,13 +16,6 @@ type Config struct {
 
 var s *gorethink.Session
 
-// Init connection
-func Init() {
-	log.Println("[database]", "starting...")
-
-	log.Println("[database]", "started!")
-}
-
 // GetSession database
 func GetSession() *gorethink.Session {
 	return s
