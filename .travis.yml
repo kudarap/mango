@@ -9,3 +9,5 @@ addons:
 
 script:
   - "go build -v"
+  - "go generate"
+  - "go test -v -race ./..."
