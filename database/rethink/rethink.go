@@ -24,8 +24,8 @@ func GetSession() *gorethink.Session {
 // Connect to database
 func Connect(c Config) {
 	// check credentials
-	err := errors.New("db host or db must defined")
-	if c.Host == "" || c.Db == "" {
+	err := errors.New("rethink Host, Db, and MaxOpen must defined")
+	if c.Host == "" || c.Db == "" || c.MaxOpen != 0 {
 		log.Fatalln(err)
 	}
 
