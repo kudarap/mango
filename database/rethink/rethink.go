@@ -42,5 +42,5 @@ func Connect(c Config) {
 	gorethink.DBCreate(c.Db).Run(s)
 
 	// enabling json tag as alternative on component Objects
-	gorethink.SetTags("gorethink", "json")
+	gorethink.SetTags("gorethink", "data")
 }
