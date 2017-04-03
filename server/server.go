@@ -5,8 +5,8 @@ import (
 )
 
 // Engine gin engine
-func Engine() *gin.Engine {
-	gin.SetMode(gin.ReleaseMode)
+func Engine(mode string) *gin.Engine {
+	gin.SetMode(mode)
 
 	r := gin.New()
 	r.Use(gin.Recovery())
