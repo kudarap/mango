@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -13,14 +14,24 @@ func PrivateMiddleware(checkPayload func(map[string]interface{}) error) gin.Hand
 		// validates token
 		p, err := auth.CheckToken(
 			getToken(c.Request.Header.Get("authorization")))
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"name":    "AUTH_REQUIRED",
+				"message": err.Error(),
+			})
+			c.Abort()
 
-		// validates payload
-		if err == nil {
-			err = checkPayload(p)
+			return
 		}
 
+		// validates payload
+		err = checkPayload(p)
 		if err != nil {
-			c.String(400, err.Error())
+			// NOTE you can check use 404
+			c.JSON(http.StatusForbidden, gin.H{
+				"name":    "AUTH_INVALID",
+				"message": err.Error(),
+			})
 			c.Abort()
 
 			return
