@@ -8,14 +8,14 @@ import (
 
 const salt = "andpepper"
 
-func CheckToken(token string) (interface{}, error) {
+func CheckToken(token string) (map[string]interface{}, error) {
 	if token == "" {
 		return nil, errors.New("authorization token required")
 	}
 
 	c, err := checkToken(token)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("invalid authorization token")
 	}
 
 	return c, nil

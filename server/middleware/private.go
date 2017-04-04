@@ -8,10 +8,17 @@ import (
 )
 
 // PrivateMiddleware checks if has valid token
-func PrivateMiddleware() gin.HandlerFunc {
+func PrivateMiddleware(checkPayload func(map[string]interface{}) error) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		_, err := auth.CheckToken(
+		// validates token
+		p, err := auth.CheckToken(
 			getToken(c.Request.Header.Get("authorization")))
+
+		// validates payload
+		if err == nil {
+			err = checkPayload(p)
+		}
+
 		if err != nil {
 			c.String(400, err.Error())
 			c.Abort()
