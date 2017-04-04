@@ -22,10 +22,10 @@ func CheckToken(token string) (interface{}, error) {
 }
 
 func CreateToken(payload map[string]interface{}) (string, error) {
-	claims := jwt.MapClaims{}
-	claims = payload
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	c := jwt.MapClaims{}
+	// this is legal since 1.8 same struct signature
+	c = payload
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 	ts, err := token.SignedString([]byte(salt))
 
 	return ts, err

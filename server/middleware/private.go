@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"log"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -11,9 +10,8 @@ import (
 // PrivateMiddleware checks if has valid token
 func PrivateMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		t := getToken(c.Request.Header.Get("authorization"))
-
-		p, err := auth.CheckToken(t)
+		_, err := auth.CheckToken(
+			getToken(c.Request.Header.Get("authorization")))
 		if err != nil {
 			c.String(400, err.Error())
 			c.Abort()
@@ -21,7 +19,7 @@ func PrivateMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		log.Println("CHECKING IN", err, p)
+		c.Next()
 	}
 }
 
