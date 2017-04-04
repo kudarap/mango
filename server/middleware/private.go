@@ -5,6 +5,8 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+
+	"github.com/javinc/mango/errors"
 	"github.com/javinc/mango/server/auth"
 )
 
@@ -15,10 +17,7 @@ func PrivateMiddleware(checkPayload func(map[string]interface{}) error) gin.Hand
 		p, err := auth.CheckToken(
 			getToken(c.Request.Header.Get("authorization")))
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{
-				"name":    "AUTH_REQUIRED",
-				"message": err.Error(),
-			})
+			c.JSON(http.StatusUnauthorized, errors.NewError("AUTH_REQUIRED", err))
 			c.Abort()
 
 			return
@@ -28,10 +27,7 @@ func PrivateMiddleware(checkPayload func(map[string]interface{}) error) gin.Hand
 		err = checkPayload(p)
 		if err != nil {
 			// NOTE you can check use 404
-			c.JSON(http.StatusForbidden, gin.H{
-				"name":    "AUTH_INVALID",
-				"message": err.Error(),
-			})
+			c.JSON(http.StatusForbidden, errors.NewError("AUTH_INVALID", err))
 			c.Abort()
 
 			return
