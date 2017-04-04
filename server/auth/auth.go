@@ -8,6 +8,7 @@ import (
 
 const salt = "andpepper"
 
+// CheckToken checks the validity of the token and returns the payload
 func CheckToken(token string) (map[string]interface{}, error) {
 	if token == "" {
 		return nil, errors.New("authorization token required")
@@ -21,6 +22,7 @@ func CheckToken(token string) (map[string]interface{}, error) {
 	return c, nil
 }
 
+// CreateToken generates sign token
 func CreateToken(payload map[string]interface{}) (string, error) {
 	c := jwt.MapClaims{}
 	// this is legal since 1.8 same struct signature

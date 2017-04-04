@@ -14,6 +14,7 @@ func (e Errors) Error() string {
 	return fmt.Sprintf("%s: %s", e.Name, e.Message)
 }
 
+// New returns generic custom error
 func New(name, message string) Errors {
 	return Errors{
 		Name:    name,
@@ -21,6 +22,7 @@ func New(name, message string) Errors {
 	}
 }
 
+// NewError accepts error value as a message
 func NewError(name string, e error) Errors {
 	return Errors{
 		Name:    name,
