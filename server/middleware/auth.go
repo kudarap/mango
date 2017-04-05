@@ -10,8 +10,8 @@ import (
 	"github.com/javinc/mango/server/auth"
 )
 
-// PrivateMiddleware checks if has valid token
-func PrivateMiddleware(checkPayload func(map[string]interface{}) error) gin.HandlerFunc {
+// Auth middleware checks if has valid token
+func Auth(checkPayload func(map[string]interface{}) error) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// validates token
 		p, err := auth.CheckToken(

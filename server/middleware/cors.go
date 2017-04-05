@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CORSMiddleware injects CORS headers to each request
-func CORSMiddleware() gin.HandlerFunc {
+// CORS middleware injects CORS headers to each request
+func CORS() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")

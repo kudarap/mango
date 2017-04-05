@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// MetricsMiddleware accumulate request metrics
-func MetricsMiddleware() gin.HandlerFunc {
+// Metrics middleware accumulate request metrics
+func Metrics() gin.HandlerFunc {
 	return func(c *gin.Context) {
 	}
 }
