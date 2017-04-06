@@ -11,7 +11,7 @@ import (
 )
 
 // Auth middleware checks if has valid token
-func Auth(checkPayload func(map[string]interface{}) error) gin.HandlerFunc {
+func Auth(checkPayload func(*gin.Context, map[string]interface{}) error) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// validates token
 		p, err := auth.CheckToken(
@@ -24,7 +24,7 @@ func Auth(checkPayload func(map[string]interface{}) error) gin.HandlerFunc {
 		}
 
 		// validates payload
-		err = checkPayload(p)
+		err = checkPayload(c, p)
 		if err != nil {
 			// NOTE you can check use 404
 			c.JSON(http.StatusForbidden, errors.NewError("AUTH_INVALID", err))
