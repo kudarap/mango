@@ -22,10 +22,19 @@ func New(name, message string) Errors {
 	}
 }
 
-// NewError accepts error value as a message
-func NewError(name string, e error) Errors {
+// Panic returns generic custom error with panic
+func Panic(name, message string) Errors {
 	return Errors{
 		Name:    name,
-		Message: e.Error(),
+		Message: message,
+		Panic:   true,
+	}
+}
+
+// NewError accepts error value as a message
+func NewError(name string, err error) Errors {
+	return Errors{
+		Name:    name,
+		Message: err.Error(),
 	}
 }
