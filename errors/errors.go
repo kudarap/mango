@@ -16,25 +16,28 @@ func (e Errors) Error() string {
 
 // New returns generic custom error
 func New(name, message string) Errors {
-	return Errors{
-		Name:    name,
-		Message: message,
-	}
-}
-
-// Panic returns generic custom error with panic
-func Panic(name, message string) Errors {
-	return Errors{
-		Name:    name,
-		Message: message,
-		Panic:   true,
-	}
+	return create(name, message, false)
 }
 
 // NewError accepts error value as a message
 func NewError(name string, err error) Errors {
+	return create(name, err.Error(), false)
+}
+
+// Panic returns generic custom error with panic
+func Panic(name, message string) Errors {
+	return create(name, message, true)
+}
+
+// PanicError returns generic custom error with panic and accepts error value
+func PanicError(name string, err error) Errors {
+	return create(name, err.Error(), true)
+}
+
+func create(n, m string, p bool) Errors {
 	return Errors{
-		Name:    name,
-		Message: err.Error(),
+		Name:    n,
+		Message: m,
+		Panic:   p,
 	}
 }
