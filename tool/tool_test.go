@@ -1,6 +1,8 @@
 package tool
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestInArray(t *testing.T) {
 	assertEqual := func(exp interface{}, val interface{}) {

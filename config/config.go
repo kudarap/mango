@@ -4,7 +4,7 @@
 package config
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/spf13/viper"
 )
@@ -12,16 +12,25 @@ import (
 var (
 	// Name of the file default is config
 	Name = "config"
-	// Path of the file default is .
-	Path = "."
 )
 
 func init() {
-	viper.SetConfigName(Name)
-	viper.AddConfigPath(Path)
-	if err := viper.ReadInConfig(); err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	// do not find config file on test
+	// if flag.Lookup("test.v") != nil {
+	// 	return
+	// }
+
+	// in production config file must be along side with the binary
+	if err := New("."); err != nil {
+		log.Fatalln(err)
 	}
+}
+
+func New(path string) error {
+	viper.SetConfigName(Name)
+	viper.AddConfigPath(path)
+
+	return viper.ReadInConfig()
 }
 
 // GetString from config
