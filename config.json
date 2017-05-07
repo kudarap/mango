@@ -11,7 +11,7 @@
   "mail": {
     "host": "smtp.live.com",
     "port": 587,
-    "user": "dev@mail.com",
+    "user": "dev@domain.com",
     "pass": "password"
   }
 }
