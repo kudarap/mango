@@ -11,7 +11,7 @@
   "mail": {
     "host": "smtp.live.com",
     "port": 587,
-    "user": "dev@chiligarlic.com",
-    "pass": "^Sawsawan$~"
+    "user": "dev@domain.com",
+    "pass": "password"
   }
 }
