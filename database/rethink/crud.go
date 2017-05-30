@@ -17,6 +17,21 @@ func Find(term gorethink.Term, result interface{}) error {
 	return nil
 }
 
+// Count basic query
+func Count(term gorethink.Term, count *int) error {
+	r, err := Run(term.Count())
+	if err != nil {
+		return err
+	}
+
+	err = r.One(count)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // FindOne basic query
 func FindOne(term gorethink.Term, result interface{}) error {
 	r, err := Run(term)
